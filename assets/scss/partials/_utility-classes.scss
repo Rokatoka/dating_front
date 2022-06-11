@@ -1,0 +1,24 @@
+@import "mixins";
+
+%typography-optima {
+  @include font-optima;
+
+  font-size: 40px;
+  line-height: 48px;
+}
+
+%typography-mont-black {
+  @include font-mont-black;
+}
+
+%typography-mont-thin {
+  @include font-mont-thin;
+}
+
+%typography-gotham-bold {
+  @include font-gotham-bold;
+}
+
+%typography-gotham-medium {
+  @include font-gotham-medium;
+}

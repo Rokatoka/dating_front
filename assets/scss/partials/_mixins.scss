@@ -1,0 +1,24 @@
+@import "../fonts/optima";
+@import "../fonts/mont";
+@import "../fonts/gotham";
+@import "./vars";
+
+@mixin font-optima {
+  font-family: $font-optima, sans-serif;
+}
+
+@mixin font-mont-black {
+  font-family: $font-mont-black, sans-serif;
+}
+
+@mixin font-mont-thin {
+  font-family: $font-mont-thin, sans-serif;
+}
+
+@mixin font-gotham-bold {
+  font-family: $font-gotham-bold, sans-serif;
+}
+
+@mixin font-gotham-medium {
+  font-family: $font-gotham-medium, sans-serif;
+}
