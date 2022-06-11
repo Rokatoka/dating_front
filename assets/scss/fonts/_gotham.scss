@@ -1,0 +1,12 @@
+@import '../partials/fontface';
+
+$gotham-filename: 'Gotham-';
+$gotham-family-bold: 'Bold';
+$gotham-family-medium: 'Medium';
+
+$font-families-map: (
+  $gotham-filename $gotham-family-bold $gotham-family-bold 700 normal,
+  $gotham-filename $gotham-family-medium $gotham-family-medium 400 normal,
+);
+
+@include import-font-faces($font-families-map);

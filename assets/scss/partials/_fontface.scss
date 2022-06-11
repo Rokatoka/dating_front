@@ -1,0 +1,20 @@
+@mixin font-face($path, $family, $weight: normal, $style: normal) {
+  @font-face {
+    font-style: $style;
+    font-weight: $weight;
+    font-family: $family;
+
+    src: url('#{$path}.ttf') format('ttf');
+  }
+}
+
+@mixin import-font-faces($fonts-map, $path-base: '@/assets/fonts') {
+  @each $filename, $filename-modifier, $font-family, $font-weight, $font-style in $fonts-map {
+    @include font-face(
+        '#{$path-base}/#{$filename}#{$filename-modifier}',
+        $font-family,
+        $font-weight,
+        $font-style
+    );
+  }
+}

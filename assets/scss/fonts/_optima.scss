@@ -1,0 +1,10 @@
+@import '../partials/fontface';
+
+$optima-filename: 'Optima ';
+$optima-family: 'Medium';
+
+$font-families-map: (
+  $optima-filename $optima-family $optima-family 400 normal,
+);
+
+@include import-font-faces($font-families-map);

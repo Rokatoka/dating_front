@@ -1,0 +1,22 @@
+@import '../partials/fontface';
+
+$mont-filename: 'Mont-';
+$mont-family-black: 'Black';
+$mont-family-bold: 'Bold';
+$mont-family-extra-light: 'ExtraLight';
+$mont-family-light: 'Light';
+$mont-family-regular: 'Regular';
+$mont-family-semi-bold: 'SemiBold';
+$mont-family-thin: 'Thin';
+
+$font-families-map: (
+  $mont-filename $mont-family-black $mont-family-black 900 normal,
+  $mont-filename $mont-family-bold $mont-family-bold 700 normal,
+  $mont-filename $mont-family-extra-light $mont-family-extra-light 200 normal,
+  $mont-filename $mont-family-light $mont-family-light 300 normal,
+  $mont-filename $mont-family-regular $mont-family-regular 400 normal,
+  $mont-filename $mont-family-semi-bold $mont-family-semi-bold 600 normal,
+  $mont-filename $mont-family-thin $mont-family-thin 100 normal,
+);
+
+@include import-font-faces($font-families-map);
