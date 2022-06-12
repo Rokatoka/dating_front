@@ -13,9 +13,9 @@
       </option>
     </select>
 
-    <button class='landing-header__button'>
+    <nuxt-link to='/login' class='landing-header__button'>
       Войти
-    </button>
+    </nuxt-link>
   </header>
 </template>
 
@@ -59,6 +59,7 @@ export default {
   color: $white;
   cursor: pointer;
   transition: background-color $transition-duration;
+  text-decoration: none;
 
   &:hover {
     background-color: $red-hovered;
