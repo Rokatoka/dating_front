@@ -21,6 +21,7 @@
       :id='id'
       :value='value'
       class='input-component__input'
+      :class="{ 'input-component__input--search': isSearch }"
       :type='type'
       v-bind='$attrs'
       @input="handleValueUpdate"
@@ -42,12 +43,16 @@ export default {
       required: true,
     },
     value: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     type: {
       type: String,
       default: 'text',
+    },
+    isSearch: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
@@ -99,5 +104,11 @@ export default {
   padding: 16px;
   border: 1px solid #C9C9C9;
   border-radius: 10px;
+
+  &--search {
+    padding: 8px 16px;
+    border: none;
+    box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
+  }
 }
 </style>
