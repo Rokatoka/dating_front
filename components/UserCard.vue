@@ -30,7 +30,7 @@
         Сообщение
       </button>
 
-      <button :class="$style['list-card__button']">
+      <button :class="$style['list-card__button']" @click='handleModalOpen'>
         Подробнее
       </button>
     </div>
@@ -40,6 +40,11 @@
 <script>
 export default {
   name: 'UserCard',
+  methods: {
+    handleModalOpen() {
+      this.$emit('onModalOpen')
+    }
+  }
 }
 </script>
 
