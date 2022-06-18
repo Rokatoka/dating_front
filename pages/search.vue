@@ -39,8 +39,17 @@
     </div>
 
     <div :class='$style.list'>
-      <user-card v-for='num in 10' :key='num' />
+      <user-card
+        v-for='num in 10'
+        :key='num'
+        @onModalOpen='handleModalOpen'
+      />
     </div>
+
+    <user-card-modal
+      v-if='isUserCardModalVisible'
+      @onClose='handleModalClose'
+    />
   </div>
 </template>
 
@@ -48,6 +57,7 @@
 import UserCard from '~/components/UserCard.vue';
 import SelectComponent from '~/components/SelectComponent.vue';
 import InputComponent from '~/components/InputComponent.vue'
+import UserCardModal from '~/components/UserCardModal.vue'
 
 export default {
   name: 'SearchPage',
@@ -55,10 +65,12 @@ export default {
     UserCard,
     SelectComponent,
     InputComponent,
+    UserCardModal,
   },
   layout: 'search',
   data() {
     return {
+      isUserCardModalVisible: false,
       filter: {
         interest: '',
         city: '',
@@ -90,6 +102,14 @@ export default {
         },
       ],
     }
+  },
+  methods: {
+    handleModalOpen() {
+      this.isUserCardModalVisible = true;
+    },
+    handleModalClose() {
+      this.isUserCardModalVisible = false;
+    },
   }
 }
 </script>
