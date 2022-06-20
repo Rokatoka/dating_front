@@ -11,12 +11,14 @@
         v-model='filter.interest'
         label='Интерес'
         :options='interestOptions'
+        is-search
       />
 
       <select-component
         v-model='filter.city'
         label='Город'
         :options='interestOptions'
+        is-search
       />
 
       <input-component
