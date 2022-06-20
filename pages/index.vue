@@ -15,9 +15,12 @@
         </p>
       </div>
 
-      <button class='landing-section__button'>
+      <nuxt-link
+        to='/register'
+        class='landing-section__button'
+      >
         Регистрация
-      </button>
+      </nuxt-link>
     </section>
 
     <footer class='landing-footer'>
@@ -139,6 +142,8 @@ export default {
   line-height: 36px;
   cursor: pointer;
   transition: background-color $transition-duration;
+  text-decoration: none;
+  text-align: center;
 
   &:hover {
     background-color: $black-hovered;

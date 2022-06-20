@@ -1,10 +1,17 @@
 <template>
   <div :class='$style.wrapper'>
-    <label :class='$style.label'>
+    <label
+      v-if='label'
+      :class='$style.label'
+    >
       {{ label }}
     </label>
 
-    <select :value='value' :class='$style.select' @change='handleValueUpdate'>
+    <select
+      :value='value'
+      :class="selectClass"
+      @change='handleValueUpdate'
+    >
       <option
         v-for='option in options'
         :key='option.name'
@@ -32,12 +39,21 @@ export default {
     options: {
       type: Array,
       default: () => []
+    },
+    isSearch: {
+      type: Boolean,
+      default: false,
+    }
+  },
+  computed: {
+    selectClass() {
+      return this.isSearch ? this.$style['select--search'] : this.$style.select
     }
   },
   methods: {
     handleValueUpdate(e) {
       this.$emit('input', e.target.value)
-    }
+    },
   },
 }
 </script>
@@ -53,12 +69,21 @@ export default {
 }
 
 .select {
-  width: 258px;
+  width: 100%;
+  height: 50px;
   padding: 8px 16px;
   background: $white;
-  box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid $grey-light;
   border-radius: 10px;
-  border: none;
   outline: none;
+
+  &--search {
+    width: 258px;
+    height: 32px;
+    box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+    outline: none;
+  }
 }
 </style>

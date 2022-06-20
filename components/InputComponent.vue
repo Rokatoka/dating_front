@@ -21,11 +21,21 @@
       :id='id'
       :value='value'
       class='input-component__input'
-      :class="{ 'input-component__input--search': isSearch }"
+      :class="{
+        'input-component__input--search': isSearch,
+        'input-component__input--error': errors.length,
+      }"
       :type='type'
       v-bind='$attrs'
       @input="handleValueUpdate"
     >
+
+    <span
+      v-if='disclaimer'
+      class='input-component__disclaimer'
+    >
+      {{ disclaimer }}
+    </span>
   </div>
 </template>
 
@@ -53,6 +63,14 @@ export default {
     isSearch: {
       type: Boolean,
       default: false,
+    },
+    disclaimer: {
+      type: String,
+      default: '',
+    },
+    errors: {
+      type: Array,
+      default: () => [],
     }
   },
   computed: {
@@ -75,6 +93,7 @@ export default {
 
 <style lang='scss'>
 .input-component {
+  position: relative;
   display: grid;
   grid-row-gap: 10px;
   color: $grey-dark;
@@ -110,5 +129,14 @@ export default {
     border: none;
     box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
   }
+
+  &--error {
+    border: 1px solid $red;
+  }
+}
+
+.input-component__disclaimer {
+  position: absolute;
+  bottom: -20px;
 }
 </style>
