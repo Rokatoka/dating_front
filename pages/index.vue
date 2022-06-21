@@ -15,25 +15,15 @@
         </p>
       </div>
 
-      <nuxt-link
-        to='/register'
+      <button
         class='landing-section__button'
+        @click='showRegistrationModal = true'
       >
         Регистрация
-      </nuxt-link>
+      </button>
     </section>
 
     <footer class='landing-footer'>
-      <div class='landing-footer__carousel'>
-        <div
-          v-for='index in 4'
-          :key='index'
-          class='landing-footer__carousel__item'
-          :class="{ 'landing-footer__carousel__item--active': index === currentSlide }"
-          @click='changeSlide(index)'
-        />
-      </div>
-
       <div class='landing-footer__statistics'>
         <div class='landing-footer__statistics__block'>
           <span class='landing-footer__statistics__item landing-footer__statistics__item--title'>
@@ -64,29 +54,26 @@
         </div>
       </div>
     </footer>
+
+    <RegistrationModal
+      :visible='showRegistrationModal'
+      @onClose='showRegistrationModal = false'
+    />
   </main>
 </template>
 
 <script>
+import RegistrationModal from '~/components/RegistrationModal.vue';
+
 export default {
   name: 'IndexPage',
+  components: {
+    RegistrationModal,
+  },
   layout: 'landing',
   data() {
     return {
-      currentSlide: 1
-    }
-  },
-  created() {
-    setInterval(() => {
-      const index = this.currentSlide < 4 ? this.currentSlide + 1 : 1;
-
-      this.changeSlide(index);
-    }, 10000)
-  },
-  methods: {
-    changeSlide(index) {
-      this.currentSlide = index;
-      this.$nuxt.$emit('onSlideChange', this.currentSlide)
+      showRegistrationModal: false,
     }
   },
 }
@@ -142,8 +129,6 @@ export default {
   line-height: 36px;
   cursor: pointer;
   transition: background-color $transition-duration;
-  text-decoration: none;
-  text-align: center;
 
   &:hover {
     background-color: $black-hovered;
@@ -153,28 +138,8 @@ export default {
 .landing-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   color: $white;
-}
-
-.landing-footer__carousel {
-  display: flex;
-  gap: 10px;
-  padding: 0 110px;
-  align-items: center;
-
-  &__item {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 1px solid $white;
-    background-color: transparent;
-    cursor: pointer;
-
-    &--active {
-      background-color: $white;
-    }
-  }
 }
 
 .landing-footer__statistics {
