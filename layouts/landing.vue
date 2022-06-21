@@ -1,13 +1,5 @@
 <template>
-  <div
-    class='landing'
-    :class="{
-    'landing--bg-1': slide === 1,
-    'landing--bg-2': slide === 2,
-    'landing--bg-3': slide === 3,
-    'landing--bg-4': slide === 4,
-  }"
-  >
+  <div class='landing'>
     <LandingHeader />
 
     <nuxt />
@@ -43,22 +35,6 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  transition: background-image $transition-duration;
-
-  &--bg-1 {
-    background-image: url('../assets/img/landing_background_1.png');
-  }
-
-  &--bg-2 {
-    background-image: url('../assets/img/landing_background_2.jpeg');
-  }
-
-  &--bg-3 {
-    background-image: url('../assets/img/landing_background_3.jpeg');
-  }
-
-  &--bg-4 {
-    background-image: url('../assets/img/landing_background_4.jpeg');
-  }
+  background-image: url('../assets/img/landing_background_1.png');
 }
 </style>
