@@ -52,10 +52,12 @@ export default {
 .list-card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 16px;
   padding: 24px;
   background-color: $white;
   border-radius: 16px;
+  box-shadow: 0px 8px 36px rgba(0, 0, 0, 0.16);
 }
 
 .list-card__image {

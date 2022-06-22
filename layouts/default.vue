@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class='$style.wrapper'>
     <main-header />
 
     <nuxt />
@@ -10,9 +10,15 @@
 import MainHeader from '~/components/MainHeader.vue';
 
 export default {
-  name: 'SearchLayout',
+  name: 'DefaultLayout',
   components: {
-    MainHeader,
+    MainHeader
   },
 }
 </script>
+
+<style module>
+.wrapper {
+  padding: 20px;
+}
+</style>
