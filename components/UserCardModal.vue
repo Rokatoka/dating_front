@@ -1,6 +1,10 @@
 <template>
   <transition
     name='modal'
+    :enter-class='$style.enter'
+    :leave-to-class='$style.leaveTo'
+    :leave-active-class='$style.transition'
+    :enter-active-class='$style.transition'
   >
     <div :class='$style.wrapper' @click.self='handleModalClose'>
       <div :class='$style.container'>
@@ -81,13 +85,12 @@ export default {
 </script>
 
 <style lang='scss' module>
-.modal-enter-active,
-.modal-leave-active {
+.transition {
   transition: opacity .5s ease;
 }
 
-.modal-enter-from,
-.modal-leave-to {
+.enter,
+.leaveTo {
   opacity: 0;
 }
 
@@ -97,6 +100,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
+  z-index: 10;
   display: flex;
   justify-content: center;
   align-items: center;

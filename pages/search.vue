@@ -69,7 +69,6 @@ export default {
     InputComponent,
     UserCardModal,
   },
-  layout: 'search',
   data() {
     return {
       isUserCardModalVisible: false,

@@ -9,6 +9,8 @@
       :value='value'
       @input='handleValueChange'
     />
+
+    <span :class='$style.disclaimer'>{{ disclaimer }}</span>
   </div>
 </template>
 
@@ -17,6 +19,10 @@ export default {
   name: 'TextAreaComponent',
   props: {
     label: {
+      type: String,
+      default: '',
+    },
+    disclaimer: {
       type: String,
       default: '',
     },
@@ -40,6 +46,7 @@ export default {
   grid-row-gap: 12px;
 }
 
+.disclaimer,
 .label {
   color: $grey-dark;
 }
