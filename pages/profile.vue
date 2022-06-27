@@ -7,6 +7,12 @@
         <span :class='$style.profileTitle'>
           Профиль
         </span>
+
+        <div :class='$style.profileEdit' @click='registrationModalVisible = true'>
+          <settings-icon />
+
+          Редактировать
+        </div>
       </div>
 
       <div :class='$style.profileRow'>
@@ -99,7 +105,12 @@
         </div>
       </div>
 
-      <div v-for='key in 20' :key='key' :class='$style.chatItem'>
+      <div
+        v-for='key in 20'
+        :key='key'
+        :class='$style.chatItem'
+        @click='messengerVisible = true'
+      >
         <div :class='$style.chatItemWrapper'>
           <div :class='$style.chatItemInfo'>
             <div :class='[$style.imageWrapper]'>
@@ -136,7 +147,10 @@
 
         <div :class='$style.paymentBlock'>
           <div :class='$style.paymentItem'>
-            <input type='radio' />
+            <label :class='$style.paymentItemRadio'>
+              <input type='radio' />
+              <span :class='$style.checkmarkRadio' />
+            </label>
 
             <img src='~/static/paypal.png' alt='paypal'>
 
@@ -148,7 +162,10 @@
           </div>
 
           <div :class='$style.paymentItem'>
-            <input type='radio' />
+            <label :class='$style.paymentItemRadio'>
+              <input type='radio' />
+              <span :class='$style.checkmarkRadio' />
+            </label>
 
             <img src='~/static/visa.png' alt='visa'>
 
@@ -178,6 +195,13 @@
     <user-card-modal v-if='userCardModalVisible' @onClose='handleModalClose' />
 
     <block-user-modal v-if='blockUserModalVisible' @onClose='handleBlockModalClose' />
+
+    <registration-modal
+      :visible='registrationModalVisible'
+      @onClose='registrationModalVisible = false'
+    />
+
+    <messenger v-if='messengerVisible' @onClose='messengerVisible = false' />
   </div>
 </template>
 
@@ -188,9 +212,12 @@ import SelectComponent from '~/components/SelectComponent.vue';
 import InterestsBlock from '~/components/InterestsBlock.vue';
 import TextAreaComponent from '~/components/TextAreaComponent.vue'
 import BlockUserModal from '~/components/BlockUserModal.vue';
+import RegistrationModal from '~/components/RegistrationModal.vue';
+import Messenger from '~/components/Messenger.vue';
 import PlusIcon from '~/icons/PlusIcon.vue';
 import BellIcon from '~/icons/BellIcon.vue';
 import MoreIcon from '~/icons/MoreIcon.vue';
+import SettingsIcon from '~/icons/SettingsIcon.vue';
 
 export default {
   name: 'ProfilePage',
@@ -204,11 +231,16 @@ export default {
     BellIcon,
     MoreIcon,
     BlockUserModal,
+    SettingsIcon,
+    RegistrationModal,
+    Messenger,
   },
   data() {
     return {
       userCardModalVisible: false,
       blockUserModalVisible: false,
+      registrationModalVisible: false,
+      messengerVisible: false,
       form: {
         name: '',
         surname: '',
@@ -321,6 +353,16 @@ export default {
     border-radius: 0px 0px 5px 5px;
     background-color: $black;
   }
+}
+
+.profileEdit {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: $grey-light;
+  font-size: 14px;
+  line-height: 21px;
+  cursor: pointer;
 }
 
 .profileName {
@@ -450,6 +492,11 @@ export default {
   display: block;
   padding: 12px 36px;
   border-top: 1px solid $grey;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $grey;
+  }
 }
 
 .chatItemWrapper {
@@ -515,6 +562,64 @@ export default {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.paymentItemRadio {
+  position: relative;
+  display: block;
+  height: 100%;
+  margin-right: 16px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+  }
+}
+
+.checkmarkRadio {
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #EEF2F7;
+  border: 1px solid #667483;
+
+  &:after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.paymentItemRadio:hover input ~ .checkmarkRadio {
+  background-color: $grey;
+}
+
+.paymentItemRadio input:checked ~ .checkmarkRadio {
+  background-color: #FBCD02;
+  border: none;
+}
+
+.paymentItemRadio input:checked ~ .checkmarkRadio:after {
+  display: block;
+  content: '';
+  top: 5px;
+  left: 5px;
+  background-color: $white;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
 .paymentItemInfo {
