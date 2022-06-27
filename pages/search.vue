@@ -52,14 +52,20 @@
       v-if='isUserCardModalVisible'
       @onClose='handleModalClose'
     />
+
+    <subscription-plug-modal
+      v-if='subscriptionPlugVisible'
+      @onClose='subscriptionPlugVisible = false'
+    />
   </div>
 </template>
 
 <script>
 import UserCard from '~/components/UserCard.vue';
 import SelectComponent from '~/components/SelectComponent.vue';
-import InputComponent from '~/components/InputComponent.vue'
-import UserCardModal from '~/components/UserCardModal.vue'
+import InputComponent from '~/components/InputComponent.vue';
+import UserCardModal from '~/components/UserCardModal.vue';
+import SubscriptionPlugModal from '~/components/SubscriptionPlugModal.vue'
 
 export default {
   name: 'SearchPage',
@@ -68,10 +74,12 @@ export default {
     SelectComponent,
     InputComponent,
     UserCardModal,
+    SubscriptionPlugModal,
   },
   data() {
     return {
       isUserCardModalVisible: false,
+      subscriptionPlugVisible: true,
       filter: {
         interest: '',
         city: '',
