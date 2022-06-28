@@ -83,56 +83,14 @@
         <span :class='$style.profileTitle'>Чат сообщений</span>
       </div>
 
-      <div :class='$style.chatItem'>
-        <div :class='$style.chatItemWrapper'>
-          <div :class='$style.chatItemInfo'>
-            <div :class='[$style.imageWrapper, $style.offline]'>
-              <img :class='$style.infoImg' src='~/static/profile.png' alt='user' />
-            </div>
-
-            <div :class='$style.chatItemName'>
-              <span :class='$style.profileName'>Дарина М.</span>
-
-              <span :class='$style.profileInfo'>28 лет. г. Алматы</span>
-            </div>
-          </div>
-
-          <div :class='$style.chatItemControl'>
-            <more-icon @click.native='handleModalOpen' />
-
-            <bell-icon :class='[$style.chatItemDisable]' @click.native='blockUserModalVisible = true' />
-          </div>
-        </div>
-      </div>
-
-      <div
-        v-for='key in 20'
-        :key='key'
-        :class='$style.chatItem'
-        @click='messengerVisible = true'
-      >
-        <div :class='$style.chatItemWrapper'>
-          <div :class='$style.chatItemInfo'>
-            <div :class='[$style.imageWrapper]'>
-              <span :class='$style.newMessage'>3</span>
-
-              <img :class='$style.infoImg' src='~/static/profile.png' alt='user' />
-            </div>
-
-            <div :class='$style.chatItemName'>
-              <span :class='$style.profileName'>Дарина М.</span>
-
-              <span :class='$style.profileInfo'>28 лет. г. Алматы</span>
-            </div>
-          </div>
-
-          <div :class='$style.chatItemControl'>
-            <more-icon @click.native='handleModalOpen' />
-
-            <bell-icon :class='[$style.chatItemDisable, $style.disabled]' @click.native='blockUserModalVisible = true' />
-          </div>
-        </div>
-      </div>
+      <template v-for='item in 20'>
+        <chat-item
+          :key='item'
+          @onModalOpen='handleModalOpen'
+          @onMessengerOpen='messengerVisible = true'
+          @onBlockOpen='blockUserModalVisible = true'
+        />
+      </template>
     </div>
 
     <div :class='$style.additionalInfo'>
@@ -213,10 +171,9 @@ import InterestsBlock from '~/components/InterestsBlock.vue';
 import TextAreaComponent from '~/components/TextAreaComponent.vue'
 import BlockUserModal from '~/components/BlockUserModal.vue';
 import RegistrationModal from '~/components/RegistrationModal.vue';
+import ChatItem from '~/components/chat/ChatItem.vue';
 import Messenger from '~/components/Messenger.vue';
 import PlusIcon from '~/icons/PlusIcon.vue';
-import BellIcon from '~/icons/BellIcon.vue';
-import MoreIcon from '~/icons/MoreIcon.vue';
 import SettingsIcon from '~/icons/SettingsIcon.vue';
 
 export default {
@@ -228,12 +185,11 @@ export default {
     SelectComponent,
     InterestsBlock,
     TextAreaComponent,
-    BellIcon,
-    MoreIcon,
     BlockUserModal,
     SettingsIcon,
     RegistrationModal,
     Messenger,
+    ChatItem,
   },
   data() {
     return {
@@ -413,27 +369,10 @@ export default {
   }
 }
 
-.newMessage {
-  position: absolute;
-  left: -15px;
-  top: 10px;
-  display: inline-block;
-  text-align: center;
-  width: 20px;
-  height: 20px;
-  background-color: $red-light;
-  color: white;
-  border-radius: 50%;
-}
-
 .imageWrapper.offline {
   &:after {
     background-color: $grey-light;
   }
-}
-
-.infoImg {
-  border-radius: 50%;
 }
 
 .infoBlock {
@@ -486,53 +425,6 @@ export default {
   z-index: 1;
   background-color: $white;
   padding: 12px 36px 20px;
-}
-
-.chatItem {
-  display: block;
-  padding: 12px 36px;
-  border-top: 1px solid $grey;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $grey;
-  }
-}
-
-.chatItemWrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.chatItemInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.chatItemName {
-  display: grid;
-  grid-row-gap: 4px;
-}
-
-.chatItemControl {
-  display: grid;
-  grid-row-gap: 12px;
-  justify-items: center;
-
-  svg {
-    cursor: pointer;
-  }
-}
-
-.chatItemDisable {
-  color: $grey-light;
-}
-
-.chatItemDisable.disabled {
-  color: $red;
 }
 
 .additionalInfo {
