@@ -57,6 +57,31 @@
       v-if='subscriptionPlugVisible'
       @onClose='subscriptionPlugVisible = false'
     />
+
+    <div :class="[$style.chat, isChatHidden && $style.hidden]">
+      <div :class='$style.chatHead' @click='isChatHidden = !isChatHidden'>
+        <div :class='$style.chatImage'>
+          <img src='~/static/profile.png' alt='user' />
+        </div>
+
+        <span>Чат сообщений</span>
+
+        <chevron-icon />
+      </div>
+
+      <template v-for='item in 20'>
+        <chat-item
+          :key='item'
+          @onModalOpen='isUserCardModalVisible = true'
+          @onMessengerOpen='messengerVisible = true'
+          @onBlockOpen='blockUserModalVisible = true'
+        />
+      </template>
+    </div>
+
+    <messenger v-if='messengerVisible' @onClose='messengerVisible = false' />
+
+    <block-user-modal v-if='blockUserModalVisible' @onClose='blockUserModalVisible = false' />
   </div>
 </template>
 
@@ -65,7 +90,11 @@ import UserCard from '~/components/UserCard.vue';
 import SelectComponent from '~/components/SelectComponent.vue';
 import InputComponent from '~/components/InputComponent.vue';
 import UserCardModal from '~/components/UserCardModal.vue';
-import SubscriptionPlugModal from '~/components/SubscriptionPlugModal.vue'
+import SubscriptionPlugModal from '~/components/SubscriptionPlugModal.vue';
+import ChatItem from '~/components/chat/ChatItem.vue';
+import Messenger from '~/components/Messenger.vue';
+import BlockUserModal from '~/components/BlockUserModal.vue';
+import ChevronIcon from '~/icons/ChevronIcon.vue';
 
 export default {
   name: 'SearchPage',
@@ -75,9 +104,16 @@ export default {
     InputComponent,
     UserCardModal,
     SubscriptionPlugModal,
+    ChatItem,
+    Messenger,
+    BlockUserModal,
+    ChevronIcon,
   },
   data() {
     return {
+      isChatHidden: true,
+      messengerVisible: false,
+      blockUserModalVisible: false,
       isUserCardModalVisible: false,
       subscriptionPlugVisible: true,
       filter: {
@@ -155,5 +191,64 @@ export default {
   grid-column-gap: 20px;
   grid-template-columns: repeat(auto-fill, 325px);
   justify-content: center;
+}
+
+.chat {
+  position: fixed;
+  right: 20px;
+  bottom: 0;
+  width: 324px;
+  height: 80vh;
+  background-color: $white;
+  border-radius: 16.0494px 16.0494px 0 0;
+  overflow-y: scroll;
+  transition: height .5s ease;
+
+  &.hidden {
+    height: 57px;
+
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.chatHead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 12px 38px 16px;
+  background: #333333;
+  color: $white;
+  cursor: pointer;
+
+  svg {
+    margin-left: auto;
+  }
+}
+
+.chatImage {
+  position: relative;
+  margin-right: 12px;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    right: 0;
+    display: block;
+    width: 7px;
+    height: 7px;
+    background-color: #34C759;
+    border-radius: 50%;
+    border: 1px solid $white;
+  }
+
+  img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+  }
 }
 </style>

@@ -163,10 +163,9 @@ export default {
     border-radius: 12px;
 
     &__list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-      grid-row-gap: 10px;
-      grid-column-gap: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
   }
 }
@@ -195,7 +194,7 @@ export default {
   background: $grey;
   border-radius: 25px;
   padding: 5px 10px;
-  color: $black;
+  color: $grey-dark;
   text-align: center;
 }
 </style>

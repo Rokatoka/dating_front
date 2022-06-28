@@ -19,6 +19,6 @@ export default {
 
 <style module>
 .wrapper {
-  padding: 20px;
+  padding: 20px 20px 0;
 }
 </style>
