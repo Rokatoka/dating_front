@@ -8,7 +8,6 @@
     :leave-to-class='$style.leaveTo'
   >
     <div
-      v-if='visible'
       :class='$style.overlay'
       @click.self="$emit('onClose')"
     >
@@ -80,19 +79,19 @@
               <select-component
                 v-model='form.birthDate.day'
                 label='День'
-                :options='days'
+                :options='MOCK_DAYS'
               />
 
               <select-component
                 v-model='form.birthDate.month'
                 label='Месяц'
-                :options='months'
+                :options='MOCK_MONTHS'
               />
 
               <select-component
                 v-model='form.birthDate.year'
                 label='Год'
-                :options='years'
+                :options='MOCK_YEARS'
               />
             </div>
           </div>
@@ -100,7 +99,7 @@
           <radio-input-group
             v-model='form.gender'
             label='Выберете Ваш пол?'
-            :options='genders'
+            :options='MOCK_GENDERS'
           />
         </div>
 
@@ -108,13 +107,13 @@
           <select-component
             v-model='form.goal'
             label='Цель'
-            :options='goals'
+            :options='MOCK_GOALS'
           />
 
           <select-component
             v-model='form.religion'
             label='Религия'
-            :options='religions'
+            :options='MOCK_RELIGION'
           />
         </div>
 
@@ -126,7 +125,7 @@
 
           <interests-block
             label='Интересы'
-            :options='interests'
+            :options='MOCK_INTERESTS'
             @onUpdateList='handleUpdateInterest'
           />
         </div>
@@ -135,24 +134,24 @@
           <select-component
             v-model='form.city'
             label='Город'
-            :options='cities'
+            :options='MOCK_CITIES'
           />
 
           <select-component
             v-model='form.country'
             label='Страна'
-            :options='countries'
+            :options='MOCK_COUNTRIES'
           />
         </div>
 
         <div :class='$style.row'>
-          <button
+          <button-component
             type='submit'
-            :class='$style.button'
+            :custom-class='$style.button'
             :disabled='invalid'
           >
             Готово
-          </button>
+          </button-component>
         </div>
       </validation-observer>
     </div>
@@ -162,11 +161,24 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate';
 
+import {
+  MOCK_DAYS,
+  MOCK_MONTHS,
+  MOCK_GOALS,
+  MOCK_GENDERS,
+  MOCK_INTERESTS,
+  MOCK_RELIGION,
+  MOCK_YEARS,
+  MOCK_COUNTRIES,
+  MOCK_CITIES,
+} from '../data'
+
 import InputComponent from './InputComponent.vue';
 import SelectComponent from './SelectComponent.vue';
 import RadioInputGroup from './RadioInputGroup.vue';
 import TextAreaComponent from './TextAreaComponent.vue';
 import InterestsBlock from './InterestsBlock.vue';
+import ButtonComponent from './ButtonComponent.vue';
 
 export default {
   name: 'RegistrationModal',
@@ -176,14 +188,9 @@ export default {
     RadioInputGroup,
     TextAreaComponent,
     InterestsBlock,
+    ButtonComponent,
     ValidationObserver,
     ValidationProvider,
-  },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false,
-    }
   },
   data() {
     return {
@@ -205,88 +212,15 @@ export default {
         about: '',
         interests: [],
       },
-      goals: [
-        {
-          name: 'Отношения',
-          value: 'relationship'
-        },
-        {
-          name: 'Досуг',
-          value: 'fun'
-        },
-      ],
-      religions: [
-        {
-          name: 'Ислам',
-          value: 'islam',
-        },
-        {
-          name: 'Буддизм',
-          value: 'buddism',
-        }
-      ],
-      cities: [
-        {
-          name: 'Астана',
-          value: 'astana',
-        },
-        {
-          name: 'Алматы',
-          value: 'almaty',
-        }
-      ],
-      countries: [
-        {
-          name: 'Казахстан',
-          value: 'kz',
-        },
-        {
-          name: 'Америка',
-          value: 'usa',
-        }
-      ],
-      genders: [
-        {
-          name: 'Женщина',
-          value: 'female',
-        },
-        {
-          name: 'Мужчина',
-          value: 'male',
-        },
-      ],
-      days: [
-        {
-          name: '01',
-          value: '01'
-        }
-      ],
-      months: [
-        {
-          name: 'январь',
-          value: '01'
-        }
-      ],
-      years: [
-        {
-          name: '1996',
-          value: '1996'
-        }
-      ],
-      interests: [
-        {
-          name: 'Кино',
-          value: 'movies'
-        },
-        {
-          name: 'Музыка',
-          value: 'music'
-        },
-        {
-          name: 'Книги',
-          value: 'books'
-        }
-      ],
+      MOCK_DAYS,
+      MOCK_MONTHS,
+      MOCK_GOALS,
+      MOCK_GENDERS,
+      MOCK_INTERESTS,
+      MOCK_RELIGION,
+      MOCK_YEARS,
+      MOCK_COUNTRIES,
+      MOCK_CITIES,
     }
   },
   methods: {
@@ -353,12 +287,6 @@ export default {
   height: 44px;
   grid-column: 2;
   margin-left: auto;
-  padding: 8px 64px;
-  border-radius: 12px;
-  background-color: $red-light;
-  color: $white;
-  cursor: pointer;
-  border: none;
 
   &:disabled {
     opacity: .5;
@@ -366,11 +294,11 @@ export default {
 }
 
 .transition .wrapper {
-  transition: transform 1s ease;
+  transition: transform .5s ease;
 }
 
 .transition.overlay {
-  transition: background 1s ease;
+  transition: background .5s ease;
 }
 
 .enter .wrapper,

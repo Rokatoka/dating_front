@@ -10,14 +10,14 @@
       <select-component
         v-model='filter.interest'
         label='Интерес'
-        :options='interestOptions'
+        :options='MOCK_INTERESTS'
         is-search
       />
 
       <select-component
         v-model='filter.city'
         label='Город'
-        :options='interestOptions'
+        :options='MOCK_CITIES'
         is-search
       />
 
@@ -35,22 +35,24 @@
         type='number'
       />
 
-      <button :class="$style['filter-button']">
+      <button-component
+        :custom-class="$style['filter-button']"
+      >
         Поиск
-      </button>
+      </button-component>
     </div>
 
     <div :class='$style.list'>
       <user-card
         v-for='num in 10'
         :key='num'
-        @onModalOpen='handleModalOpen'
+        @onModalOpen='isUserCardModalVisible = true'
       />
     </div>
 
     <user-card-modal
       v-if='isUserCardModalVisible'
-      @onClose='handleModalClose'
+      @onClose='isUserCardModalVisible = false'
     />
 
     <subscription-plug-modal
@@ -59,7 +61,10 @@
     />
 
     <div :class="[$style.chat, isChatHidden && $style.hidden]">
-      <div :class='$style.chatHead' @click='isChatHidden = !isChatHidden'>
+      <div
+        :class='$style.chatHead'
+        @click='isChatHidden = !isChatHidden'
+      >
         <div :class='$style.chatImage'>
           <img src='~/static/profile.png' alt='user' />
         </div>
@@ -86,6 +91,8 @@
 </template>
 
 <script>
+import { MOCK_INTERESTS, MOCK_CITIES } from '../data';
+
 import UserCard from '~/components/UserCard.vue';
 import SelectComponent from '~/components/SelectComponent.vue';
 import InputComponent from '~/components/InputComponent.vue';
@@ -93,6 +100,7 @@ import UserCardModal from '~/components/UserCardModal.vue';
 import SubscriptionPlugModal from '~/components/SubscriptionPlugModal.vue';
 import ChatItem from '~/components/chat/ChatItem.vue';
 import Messenger from '~/components/Messenger.vue';
+import ButtonComponent from '~/components/ButtonComponent.vue';
 import BlockUserModal from '~/components/BlockUserModal.vue';
 import ChevronIcon from '~/icons/ChevronIcon.vue';
 
@@ -108,6 +116,7 @@ export default {
     Messenger,
     BlockUserModal,
     ChevronIcon,
+    ButtonComponent,
   },
   data() {
     return {
@@ -122,40 +131,10 @@ export default {
         ageFrom: 18,
         ageTo: 35
       },
-      interestOptions: [
-        {
-          name: 'Музыка',
-          value: 'music'
-        },
-        {
-          name: 'Кино',
-          value: 'movies'
-        },
-        {
-          name: 'Книги',
-          value: 'books'
-        },
-      ],
-      citiesOptions: [
-        {
-          name: 'Нур-султан',
-          value: 'nur-sultan'
-        },
-        {
-          name: 'Алматы',
-          value: 'almaty'
-        },
-      ],
+      MOCK_INTERESTS,
+      MOCK_CITIES,
     }
   },
-  methods: {
-    handleModalOpen() {
-      this.isUserCardModalVisible = true;
-    },
-    handleModalClose() {
-      this.isUserCardModalVisible = false;
-    },
-  }
 }
 </script>
 
@@ -176,13 +155,13 @@ export default {
 }
 
 .filter-button {
-  padding: 8px 40px;
   background-color: $black-hovered;
-  color: $white;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  border: none;
-  cursor: pointer;
+
+  &:hover {
+    background-color: $black-hovered;
+  }
 }
 
 .list {

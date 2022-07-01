@@ -1,13 +1,16 @@
 <template>
-  <div class='input-component'>
-    <div class='input-component__header'>
-      <label class='input-component__label'>
+  <div :class='$style.wrapper'>
+    <div :class='$style.header'>
+      <label>
         {{ label }}
       </label>
 
-      <div v-if="type === 'password'" class='input-component__header-icon'>
+      <div
+        v-if="type === 'password'"
+        :class='$style.headerIcon'
+      >
         <show-visibility-icon
-          class='input-component__icon'
+          :class='$style.icon'
           @click.native='handleVisibilityToggle'
         />
 
@@ -20,11 +23,11 @@
     <input
       :id='id'
       :value='value'
-      class='input-component__input'
-      :class="{
-        'input-component__input--search': isSearch,
-        'input-component__input--error': errors.length,
-      }"
+      :class='[
+        $style.input,
+        isSearch && $style.search,
+        errors.length && $style.error
+      ]'
       :type='type'
       v-bind='$attrs'
       @input="handleValueUpdate"
@@ -32,7 +35,7 @@
 
     <span
       v-if='disclaimer'
-      class='input-component__disclaimer'
+      :class='$style.disclaimer'
     >
       {{ disclaimer }}
     </span>
@@ -91,8 +94,8 @@ export default {
 }
 </script>
 
-<style lang='scss'>
-.input-component {
+<style lang='scss' module>
+.wrapper {
   position: relative;
   display: grid;
   grid-row-gap: 10px;
@@ -103,34 +106,34 @@ export default {
   }
 }
 
-.input-component__header {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.input-component__header-icon {
+.headerIcon {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.input-component__icon {
+.icon {
   cursor: pointer;
 }
 
-.input-component__input {
+.input {
   padding: 16px;
   border: 1px solid #C9C9C9;
   border-radius: 10px;
 
-  &--search {
+  &.search {
     padding: 8px 16px;
     border: none;
     box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
   }
 
-  &--error {
+  &.error {
     border: 1px solid $red;
   }
 }

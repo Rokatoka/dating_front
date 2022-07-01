@@ -1,5 +1,5 @@
 <template>
-  <div class='login-layout'>
+  <div :class='$style.login'>
     <nuxt />
   </div>
 </template>
@@ -10,8 +10,8 @@ export default {
 }
 </script>
 
-<style lang='scss'>
-.login-layout {
+<style lang='scss' module>
+.login {
   display: flex;
   justify-content: center;
   align-items: center;

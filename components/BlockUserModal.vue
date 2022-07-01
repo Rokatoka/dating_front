@@ -6,20 +6,23 @@
     :leave-active-class='$style.transition'
     :enter-active-class='$style.transition'
   >
-    <div :class='$style.wrapper' @click.self="handleClose">
+    <div :class='$style.wrapper' @click.self="$emit('onClose')">
       <div :class='$style.block'>
         <span :class='$style.title'>Блокировка сообщений!</span>
 
         <p>Уважаемый пользователь, Вы блокируете все входящие сообщения от данного человека, Вам не смогут писать и отправлять сообщения.</p>
 
         <div :class='$style.control'>
-          <button :class='$style.button'>
+          <button-component>
             Блокировть
-          </button>
+          </button-component>
 
-          <button :class='[$style.button, $style.grey]' @click='handleClose'>
+          <button-component
+            :custom-class='$style.grey'
+            @click="$emit('onClose')"
+          >
             Отмена
-          </button>
+          </button-component>
         </div>
       </div>
     </div>
@@ -27,12 +30,11 @@
 </template>
 
 <script>
+import ButtonComponent from './ButtonComponent.vue';
 export default {
   name: 'BlockUserModal',
-  methods: {
-    handleClose() {
-      this.$emit('onClose');
-    }
+  components: {
+    ButtonComponent,
   }
 }
 </script>
@@ -62,7 +64,7 @@ export default {
 
 .block {
   padding: 28px 44px;
-  width: 304px;
+  width: 340px;
   text-align: center;
   background: #FFFFFF;
   box-shadow: 0px 8px 36px rgba(0, 0, 0, 0.16);
@@ -80,16 +82,11 @@ export default {
   justify-content: space-between;
 }
 
-.button {
-  padding: 16px 20px;
-  border-radius: 12px;
-  background-color: $red-light;
-  color: $white;
-  border: none;
-  cursor: pointer;
-}
+.grey {
+  background-color: $grey-dark;
 
-.button.grey {
-  background-color: $grey-light;
+  &:hover {
+    background-color: $grey-light;
+  }
 }
 </style>

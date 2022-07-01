@@ -30,16 +30,21 @@
         <option>Казахский (KZ)</option>
       </select>
 
-      <button :class='$style.button'>
+      <button-component :custom-class='$style.button'>
         Выйти
-      </button>
+      </button-component>
     </div>
   </div>
 </template>
 
 <script>
+import ButtonComponent from './ButtonComponent.vue';
+
 export default {
   name: 'MainHeader',
+  components: {
+    ButtonComponent,
+  },
   data() {
     return {
       navLinks: [
@@ -136,12 +141,7 @@ export default {
 
 .button {
   margin-left: 24px;
-  padding: 10px 24px;
-  border-radius: 8px;
-  border: none;
-  color: $white;
   background: $black;
-  cursor: pointer;
 
   &:hover {
     background-color: $black-hovered;

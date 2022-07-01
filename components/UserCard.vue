@@ -26,20 +26,28 @@
     </div>
 
     <div :class="$style['list-card__control']">
-      <button :class="[$style['list-card__button'], $style['list-card__button--red']]">
+      <button-component>
         Сообщение
-      </button>
+      </button-component>
 
-      <button :class="$style['list-card__button']" @click='handleModalOpen'>
+      <button-component
+        :custom-class="$style['list-card__button']"
+        @click='handleModalOpen'
+      >
         Подробнее
-      </button>
+      </button-component>
     </div>
   </div>
 </template>
 
 <script>
+import ButtonComponent from './ButtonComponent.vue';
+
 export default {
   name: 'UserCard',
+  components: {
+    ButtonComponent,
+  },
   methods: {
     handleModalOpen() {
       this.$emit('onModalOpen')
@@ -96,25 +104,10 @@ export default {
 }
 
 .list-card__button {
-  padding: 10px 24px;
-  color: $white;
-  border-radius: 8px;
-  border: none;
   background-color: $grey-dark;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 21px;
 
   &:hover {
     background-color: $grey-light;
-  }
-
-  &--red {
-    background-color: $red-light;
-
-    &:hover {
-      background-color: $red-hovered;
-    }
   }
 }
 </style>

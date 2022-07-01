@@ -79,13 +79,13 @@
             <add-emoji-icon />
           </div>
 
-          <button
-            :class='$style.btn'
+          <button-component
+            :custom-class='$style.btn'
             :disabled='!messageText'
             @click='addMessage'
           >
             Отправить
-          </button>
+          </button-component>
         </div>
       </div>
     </div>
@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import ButtonComponent from './ButtonComponent.vue';
 import MinimizeIcon from '~/icons/MinimizeIcon.vue';
 import CloseIcon from '~/icons/CloseIcon.vue';
 import AddImageIcon from '~/icons/AddImageIcon.vue';
@@ -109,6 +110,7 @@ export default {
     AddEmojiIcon,
     AddLinkIcon,
     WriteIcon,
+    ButtonComponent,
   },
   data() {
     return {
@@ -393,10 +395,10 @@ export default {
   background: #333333;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 27px;
-  color: $white;
-  border: none;
-  outline: none;
-  cursor: pointer;
+
+  &:hover {
+    background-color: $black-hovered;
+  }
 
   &:disabled {
     opacity: .5;
