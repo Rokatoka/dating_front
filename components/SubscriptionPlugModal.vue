@@ -16,16 +16,16 @@
         <p>Чтобы воспользоваться поиском, пожалуйста, оплатите подписку!</p>
 
         <div :class='$style.control'>
-          <button
-            :class='[$style.button, $style.grey]'
+          <button-component
+            :custom-class='$style.grey'
             @click="$emit('onClose')"
           >
             Подробнее о подписке
-          </button>
+          </button-component>
 
-          <button :class='$style.button'>
+          <button-component>
             Оплатить подписку
-          </button>
+          </button-component>
         </div>
       </div>
     </div>
@@ -33,8 +33,13 @@
 </template>
 
 <script>
+import ButtonComponent from './ButtonComponent.vue';
+
 export default {
   name: 'SubscriptionPlugModal',
+  components: {
+    ButtonComponent,
+  },
 }
 </script>
 
@@ -81,16 +86,11 @@ export default {
   justify-content: space-between;
 }
 
-.button {
-  padding: 16px 20px;
-  border-radius: 12px;
-  background-color: $red-light;
-  color: $white;
-  border: none;
-  cursor: pointer;
-}
+.grey {
+  background-color: $grey-dark;
 
-.button.grey {
-  background-color: $grey-light;
+  &:hover {
+    background-color: $grey-light;
+  }
 }
 </style>

@@ -6,7 +6,10 @@
     :leave-active-class='$style.transition'
     :enter-active-class='$style.transition'
   >
-    <div :class='$style.wrapper' @click.self='handleModalClose'>
+    <div
+      :class='$style.wrapper'
+      @click.self="$emit('onClose')"
+    >
       <div :class='$style.container'>
         <img src='~/static/girl_1.png' />
 
@@ -20,7 +23,10 @@
               28 лет. г. Алматы
             </span>
 
-            <close-icon :class='$style.close' @click.native='handleModalClose' />
+            <close-icon
+              :class='$style.close'
+              @click.native="$emit('onClose')"
+            />
           </div>
 
           <div :class='$style.item'>
@@ -50,13 +56,13 @@
           </div>
 
           <div :class='$style.control'>
-            <button :class='$style.button'>
+            <button-component>
               Сообщение
-            </button>
+            </button-component>
 
-            <button :class="[$style.button, $style['button--close']]">
+            <button-component :custom-class="$style.button">
               Закрыть
-            </button>
+            </button-component>
           </div>
         </div>
       </div>
@@ -65,21 +71,20 @@
 </template>
 
 <script>
+import ButtonComponent from './ButtonComponent.vue';
 import CloseIcon from '~/icons/CloseIcon.vue';
 
 export default {
   name: 'UserCardModal',
-  components: { CloseIcon },
+  components: {
+    CloseIcon,
+    ButtonComponent,
+  },
   mounted() {
     document.body.style.overflow = 'hidden';
   },
   destroyed() {
     document.body.style.removeProperty('overflow');
-  },
-  methods: {
-    handleModalClose() {
-      this.$emit('onClose');
-    }
   },
 }
 </script>
@@ -177,15 +182,9 @@ export default {
 }
 
 .button {
-  padding: 10px 32px;
-  border: none;
-  outline: none;
-  border-radius: 8px;
-  color: $white;
-  background-color: $red-light;
-  cursor: pointer;
+  background-color: $grey-dark;
 
-  &--close {
+  &:hover {
     background-color: $grey-light;
   }
 }

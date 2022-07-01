@@ -35,9 +35,11 @@
         type='number'
       />
 
-      <button :class="$style['filter-button']">
+      <button-component
+        :custom-class="$style['filter-button']"
+      >
         Поиск
-      </button>
+      </button-component>
     </div>
 
     <div :class='$style.list'>
@@ -98,6 +100,7 @@ import UserCardModal from '~/components/UserCardModal.vue';
 import SubscriptionPlugModal from '~/components/SubscriptionPlugModal.vue';
 import ChatItem from '~/components/chat/ChatItem.vue';
 import Messenger from '~/components/Messenger.vue';
+import ButtonComponent from '~/components/ButtonComponent.vue';
 import BlockUserModal from '~/components/BlockUserModal.vue';
 import ChevronIcon from '~/icons/ChevronIcon.vue';
 
@@ -113,6 +116,7 @@ export default {
     Messenger,
     BlockUserModal,
     ChevronIcon,
+    ButtonComponent,
   },
   data() {
     return {
@@ -151,13 +155,13 @@ export default {
 }
 
 .filter-button {
-  padding: 8px 40px;
   background-color: $black-hovered;
-  color: $white;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  border: none;
-  cursor: pointer;
+
+  &:hover {
+    background-color: $black-hovered;
+  }
 }
 
 .list {
