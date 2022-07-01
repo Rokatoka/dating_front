@@ -6,7 +6,7 @@
     :leave-active-class='$style.transition'
     :enter-active-class='$style.transition'
   >
-    <div :class='$style.wrapper' @click.self="handleClose">
+    <div :class='$style.wrapper' @click.self="$emit('onClose')">
       <div :class='$style.block'>
         <span :class='$style.title'>Блокировка сообщений!</span>
 
@@ -17,7 +17,10 @@
             Блокировть
           </button>
 
-          <button :class='[$style.button, $style.grey]' @click='handleClose'>
+          <button
+            :class='[$style.button, $style.grey]'
+            @click="$emit('onClose')"
+          >
             Отмена
           </button>
         </div>
@@ -29,11 +32,6 @@
 <script>
 export default {
   name: 'BlockUserModal',
-  methods: {
-    handleClose() {
-      this.$emit('onClose');
-    }
-  }
 }
 </script>
 

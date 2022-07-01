@@ -1,12 +1,12 @@
 <template>
-  <div class='login'>
-    <div class='login__title'>
-      <span class='login__title__head'>
+  <div :class='$style.login'>
+    <div :class='$style.title'>
+      <span :class='$style.titleHead'>
         Войти
       </span>
 
-      <span class='login__title__body'>
-        Введите свои данные для входа
+      <span :class='$style.titleBody'>
+        Пожалуйста, укажите ваш email , который был использован при регистрации.
       </span>
     </div>
 
@@ -24,19 +24,21 @@
       type='password'
     />
 
-    <button class='login__button'>
+    <button-component>
       Вход
-    </button>
+    </button-component>
   </div>
 </template>
 
 <script>
-import InputComponent from '~/components/InputComponent';
+import InputComponent from '~/components/InputComponent.vue';
+import ButtonComponent from '~/components/ButtonComponent.vue';
 
 export default {
   name: 'LoginPage',
   components: {
     InputComponent,
+    ButtonComponent,
   },
   layout: 'login',
   data() {
@@ -48,7 +50,7 @@ export default {
 }
 </script>
 
-<style lang='scss'>
+<style lang='scss' module>
 .login {
   @extend %typography-mont-thin;
 
@@ -61,33 +63,20 @@ export default {
   background-color: $white;
 }
 
-.login__title {
+.title {
   display: grid;
   grid-row-gap: 8px;
   text-align: center;
-
-  &__head {
-    font-size: 24px;
-    line-height: 36px;
-  }
-
-  &__body {
-    color: $grey-dark;
-  }
 }
 
-.login__button {
-  padding: 10px 24px;
-  border-radius: 8px;
-  border: none;
-  background-color: $red-light;
-  color: $white;
-  cursor: pointer;
-  transition: background-color $transition-duration;
-  text-decoration: none;
+.titleHead {
+  font-size: 24px;
+  line-height: 36px;
+}
 
-  &:hover {
-    background-color: $red-hovered;
-  }
+.titleBody {
+  font-size: 16px;
+  line-height: 24px;
+  color: $grey-dark;
 }
 </style>

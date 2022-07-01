@@ -1,54 +1,54 @@
 <template>
-  <main class='landing-main'>
-    <section class='landing-section'>
-      <span class='landing-section__title'>
+  <main :class='$style.main'>
+    <section :class='$style.section'>
+      <span :class='$style.title'>
         Qupidon
       </span>
 
-      <div class='landing-section__description'>
-        <span class='landing-section__description__title'>
+      <div>
+        <span :class='$style.descriptionTitle'>
           Найди свою любовь
         </span>
 
-        <p class='landing-section__description__text'>
+        <p :class='$style.descriptionText'>
           Уникальная платформа Qupidon, которая помогает соединять сердца
         </p>
       </div>
 
-      <button
-        class='landing-section__button'
+      <button-component
+        :custom-class='$style.button'
         @click='showRegistrationModal = true'
       >
         Регистрация
-      </button>
+      </button-component>
     </section>
 
-    <footer class='landing-footer'>
-      <div class='landing-footer__statistics'>
-        <div class='landing-footer__statistics__block'>
-          <span class='landing-footer__statistics__item landing-footer__statistics__item--title'>
+    <footer :class='$style.footer'>
+      <div :class='$style.statistics'>
+        <div :class='$style.statisticsBlock'>
+          <span :class='[$style.statisticsItem, $style.title]'>
             Пользователи
           </span>
 
-          <span class='landing-footer__statistics__item landing-footer__statistics__item--data'>
+          <span :class='[$style.statisticsItem, $style.data]'>
             120 ч.
           </span>
 
-          <span class='landing-footer__statistics__item landing-footer__statistics__item--description'>
+          <span :class='[$style.statisticsItem, $style.description]'>
             новых пользователей каждый день
           </span>
         </div>
 
-        <div class='landing-footer__statistics__block'>
-          <span class='landing-footer__statistics__item landing-footer__statistics__item--title'>
+        <div :class='$style.statisticsBlock'>
+          <span :class='[$style.statisticsItem, $style.title]'>
             Сердца
           </span>
 
-          <span class='landing-footer__statistics__item landing-footer__statistics__item--data'>
+          <span :class='[$style.statisticsItem, $style.data]'>
             42
           </span>
 
-          <span class='landing-footer__statistics__item landing-footer__statistics__item--description'>
+          <span :class='[$style.statisticsItem, $style.description]'>
             пар нашедних свою любовь
           </span>
         </div>
@@ -56,7 +56,7 @@
     </footer>
 
     <RegistrationModal
-      :visible='showRegistrationModal'
+      v-if='showRegistrationModal'
       @onClose='showRegistrationModal = false'
     />
   </main>
@@ -64,11 +64,13 @@
 
 <script>
 import RegistrationModal from '~/components/RegistrationModal.vue';
+import ButtonComponent from '~/components/ButtonComponent.vue';
 
 export default {
   name: 'IndexPage',
   components: {
     RegistrationModal,
+    ButtonComponent,
   },
   layout: 'landing',
   data() {
@@ -79,15 +81,15 @@ export default {
 }
 </script>
 
-<style lang='scss'>
-.landing-main {
+<style lang='scss' module>
+.main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: 1 0 auto;
 }
 
-.landing-section {
+.section {
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -96,53 +98,46 @@ export default {
   color: $white;
 }
 
-.landing-section__title {
+.title {
   @extend %typography-optima;
 }
 
-.landing-section__description {
-  &__title {
-    @extend %typography-mont-black;
+.descriptionTitle {
+  @extend %typography-mont-black;
 
-    font-size: 56px;
-    line-height: 64px;
-  }
-
-  &__text {
-    @extend %typography-mont-thin;
-
-    font-size: 24px;
-    line-height: 31px;
-  }
+  font-size: 56px;
+  line-height: 64px;
 }
 
-.landing-section__button {
+.descriptionText {
   @extend %typography-mont-thin;
 
-  width: 296px;
+  font-size: 24px;
+  line-height: 31px;
+}
+
+.button {
+  @extend %typography-mont-thin;
+
   padding: 12px 52px;
   background-color: $black;
-  color: $white;
   border-radius: 40px;
-  border: none;
   font-size: 28px;
   line-height: 36px;
-  cursor: pointer;
-  transition: background-color $transition-duration;
 
   &:hover {
     background-color: $black-hovered;
   }
 }
 
-.landing-footer {
+.footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   color: $white;
 }
 
-.landing-footer__statistics {
+.statistics {
   display: flex;
   gap: 40px;
   padding: 40px 75px;
@@ -150,27 +145,27 @@ export default {
   backdrop-filter: blur(26.3384px);
 }
 
-.landing-footer__statistics__block {
+.statisticsBlock {
   display: grid;
   grid-row-gap: 10px;
 }
 
-.landing-footer__statistics__item {
+.statisticsItem {
   @extend %typography-gotham-bold;
 
   max-width: 150px;
 
-  &--title {
+  &.title {
     font-size: 14px;
     line-height: 17px;
   }
 
-  &--data {
+  &.data {
     font-size: 36px;
     line-height: 43px;
   }
 
-  &--description {
+  &.description {
     @extend %typography-gotham-medium;
 
     font-size: 14px;

@@ -1,11 +1,11 @@
 <template>
-  <header class='landing-header'>
+  <header :class='$style.header'>
     <select
       v-model='selectedLang'
-      class='landing-header__select'
+      :class='$style.select'
     >
       <option
-        v-for='option in langOptions'
+        v-for='option in LANG_OPTIONS'
         :key='option.value'
         :value='option.value'
       >
@@ -13,29 +13,35 @@
       </option>
     </select>
 
-    <nuxt-link to='/login' class='landing-header__button'>
+    <button-component
+      component-type='nuxt-link'
+      to='/login'
+    >
       Войти
-    </nuxt-link>
+    </button-component>
   </header>
 </template>
 
 <script>
+import { LANG_OPTIONS } from '../data';
+import ButtonComponent from './ButtonComponent.vue';
+
 export default {
   name: 'LandingHeader',
+  components: {
+    ButtonComponent,
+  },
   data() {
     return {
-      langOptions: [
-        { label: 'Русский (RU)', value: 'ru' },
-        { label: 'Казахский (KZ)', value: 'kz' },
-      ],
+      LANG_OPTIONS,
       selectedLang: 'ru',
     }
   }
 }
 </script>
 
-<style lang='scss'>
-.landing-header {
+<style lang='scss' module>
+.header {
   @extend %typography-mont-thin;
 
   display: flex;
@@ -44,25 +50,10 @@ export default {
   padding: 60px 60px 10px;
 }
 
-.landing-header__select {
+.select {
   background: transparent;
   border: none;
   color: white;
   outline: none;
-}
-
-.landing-header__button {
-  padding: 10px 24px;
-  border-radius: 8px;
-  border: none;
-  background-color: $red;
-  color: $white;
-  cursor: pointer;
-  transition: background-color $transition-duration;
-  text-decoration: none;
-
-  &:hover {
-    background-color: $red-hovered;
-  }
 }
 </style>

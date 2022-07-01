@@ -1,5 +1,5 @@
 <template>
-  <div class='landing'>
+  <div :class='$style.landing'>
     <LandingHeader />
 
     <nuxt />
@@ -14,20 +14,10 @@ export default {
   components: {
     LandingHeader,
   },
-  data() {
-    return {
-      slide: 1
-    }
-  },
-  created() {
-    this.$nuxt.$on('onSlideChange', (index) => {
-      this.slide = index;
-    });
-  }
 }
 </script>
 
-<style lang='scss'>
+<style lang='scss' module>
 .landing {
   height: 100vh;
   display: flex;
@@ -35,6 +25,6 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-image: url('../assets/img/landing_background_1.png');
+  background-image: url('../static/landing_background_1.jpg');
 }
 </style>

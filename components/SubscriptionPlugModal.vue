@@ -6,14 +6,20 @@
     :leave-active-class='$style.transition'
     :enter-active-class='$style.transition'
   >
-    <div :class='$style.wrapper' @click.self="handleClose">
+    <div
+      :class='$style.wrapper'
+      @click.self="$emit('onClose')"
+    >
       <div :class='$style.block'>
         <span :class='$style.title'>Внимание!</span>
 
         <p>Чтобы воспользоваться поиском, пожалуйста, оплатите подписку!</p>
 
         <div :class='$style.control'>
-          <button :class='[$style.button, $style.grey]' @click='handleClose'>
+          <button
+            :class='[$style.button, $style.grey]'
+            @click="$emit('onClose')"
+          >
             Подробнее о подписке
           </button>
 
@@ -29,11 +35,6 @@
 <script>
 export default {
   name: 'SubscriptionPlugModal',
-  methods: {
-    handleClose() {
-      this.$emit('onClose');
-    }
-  }
 }
 </script>
 

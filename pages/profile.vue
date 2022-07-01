@@ -1,6 +1,6 @@
 <template>
   <div :class='$style.wrapper'>
-    <user-card @onModalOpen='handleModalOpen' />
+    <user-card @onModalOpen='userCardModalVisible = true' />
 
     <div :class='$style.profileBlock'>
       <div :class='$style.profileRow'>
@@ -8,7 +8,10 @@
           Профиль
         </span>
 
-        <div :class='$style.profileEdit' @click='registrationModalVisible = true'>
+        <div
+          :class='$style.profileEdit'
+          @click='registrationModalVisible = true'
+        >
           <settings-icon />
 
           Редактировать
@@ -52,19 +55,19 @@
           <select-component
             v-model='form.birthDate.day'
             label='День'
-            :options='days'
+            :options='MOCK_DAYS'
           />
 
           <select-component
             v-model='form.birthDate.month'
             label='Месяц'
-            :options='months'
+            :options='MOCK_MONTHS'
           />
 
           <select-component
             v-model='form.birthDate.year'
             label='Год'
-            :options='years'
+            :options='MOCK_YEARS'
           />
         </div>
       </div>
@@ -73,7 +76,7 @@
         <interests-block
           v-model='form.interests'
           label='Интересы'
-          :options='interests'
+          :options='MOCK_INTERESTS'
         />
       </div>
     </div>
@@ -86,7 +89,7 @@
       <template v-for='item in 20'>
         <chat-item
           :key='item'
-          @onModalOpen='handleModalOpen'
+          @onModalOpen='userCardModalVisible = true'
           @onMessengerOpen='messengerVisible = true'
           @onBlockOpen='blockUserModalVisible = true'
         />
@@ -150,20 +153,36 @@
       </div>
     </div>
 
-    <user-card-modal v-if='userCardModalVisible' @onClose='handleModalClose' />
+    <user-card-modal
+      v-if='userCardModalVisible'
+      @onClose='userCardModalVisible = false'
+    />
 
-    <block-user-modal v-if='blockUserModalVisible' @onClose='handleBlockModalClose' />
+    <block-user-modal
+      v-if='blockUserModalVisible'
+      @onClose='blockUserModalVisible = false'
+    />
 
     <registration-modal
-      :visible='registrationModalVisible'
+      v-if='registrationModalVisible'
       @onClose='registrationModalVisible = false'
     />
 
-    <messenger v-if='messengerVisible' @onClose='messengerVisible = false' />
+    <messenger
+      v-if='messengerVisible'
+      @onClose='messengerVisible = false'
+    />
   </div>
 </template>
 
 <script>
+import {
+  MOCK_INTERESTS,
+  MOCK_YEARS,
+  MOCK_DAYS,
+  MOCK_MONTHS,
+} from '../data';
+
 import UserCard from '~/components/UserCard.vue';
 import UserCardModal from '~/components/UserCardModal.vue';
 import SelectComponent from '~/components/SelectComponent.vue';
@@ -215,50 +234,13 @@ export default {
         about: '',
         interests: ['books'],
       },
-      days: [
-        {
-          name: '01',
-          value: '01'
-        }
-      ],
-      months: [
-        {
-          name: 'январь',
-          value: '01'
-        }
-      ],
-      years: [
-        {
-          name: '1996',
-          value: '1996'
-        }
-      ],
-      interests: [
-        {
-          name: 'Кино',
-          value: 'movies'
-        },
-        {
-          name: 'Музыка',
-          value: 'music'
-        },
-        {
-          name: 'Книги',
-          value: 'books'
-        }
-      ],
+      MOCK_DAYS,
+      MOCK_MONTHS,
+      MOCK_YEARS,
+      MOCK_INTERESTS,
     }
   },
   methods: {
-    handleModalOpen() {
-      this.userCardModalVisible = true;
-    },
-    handleModalClose() {
-      this.userCardModalVisible = false;
-    },
-    handleBlockModalClose() {
-      this.blockUserModalVisible = false;
-    },
     handleAddImage() {
       const input = document.createElement('input');
       input.type = 'file';

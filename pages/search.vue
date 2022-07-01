@@ -10,14 +10,14 @@
       <select-component
         v-model='filter.interest'
         label='Интерес'
-        :options='interestOptions'
+        :options='MOCK_INTERESTS'
         is-search
       />
 
       <select-component
         v-model='filter.city'
         label='Город'
-        :options='interestOptions'
+        :options='MOCK_CITIES'
         is-search
       />
 
@@ -44,13 +44,13 @@
       <user-card
         v-for='num in 10'
         :key='num'
-        @onModalOpen='handleModalOpen'
+        @onModalOpen='isUserCardModalVisible = true'
       />
     </div>
 
     <user-card-modal
       v-if='isUserCardModalVisible'
-      @onClose='handleModalClose'
+      @onClose='isUserCardModalVisible = false'
     />
 
     <subscription-plug-modal
@@ -59,7 +59,10 @@
     />
 
     <div :class="[$style.chat, isChatHidden && $style.hidden]">
-      <div :class='$style.chatHead' @click='isChatHidden = !isChatHidden'>
+      <div
+        :class='$style.chatHead'
+        @click='isChatHidden = !isChatHidden'
+      >
         <div :class='$style.chatImage'>
           <img src='~/static/profile.png' alt='user' />
         </div>
@@ -86,6 +89,8 @@
 </template>
 
 <script>
+import { MOCK_INTERESTS, MOCK_CITIES } from '../data';
+
 import UserCard from '~/components/UserCard.vue';
 import SelectComponent from '~/components/SelectComponent.vue';
 import InputComponent from '~/components/InputComponent.vue';
@@ -122,40 +127,10 @@ export default {
         ageFrom: 18,
         ageTo: 35
       },
-      interestOptions: [
-        {
-          name: 'Музыка',
-          value: 'music'
-        },
-        {
-          name: 'Кино',
-          value: 'movies'
-        },
-        {
-          name: 'Книги',
-          value: 'books'
-        },
-      ],
-      citiesOptions: [
-        {
-          name: 'Нур-султан',
-          value: 'nur-sultan'
-        },
-        {
-          name: 'Алматы',
-          value: 'almaty'
-        },
-      ],
+      MOCK_INTERESTS,
+      MOCK_CITIES,
     }
   },
-  methods: {
-    handleModalOpen() {
-      this.isUserCardModalVisible = true;
-    },
-    handleModalClose() {
-      this.isUserCardModalVisible = false;
-    },
-  }
 }
 </script>
 
