@@ -94,7 +94,7 @@ export default {
   flex-direction: column;
   gap: 50px;
   padding: 0 110px;
-  max-width: 630px;
+  max-width: 760px;
   color: $white;
 }
 
@@ -112,6 +112,7 @@ export default {
 .descriptionText {
   @extend %typography-mont-thin;
 
+  font-weight: 300;
   font-size: 24px;
   line-height: 31px;
 }
@@ -119,6 +120,7 @@ export default {
 .button {
   @extend %typography-mont-thin;
 
+  width: 294px;
   padding: 12px 52px;
   background-color: $black;
   border-radius: 40px;

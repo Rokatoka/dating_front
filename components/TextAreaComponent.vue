@@ -43,12 +43,15 @@ export default {
 .wrapper {
   display: grid;
   grid-template-rows: auto 1fr;
-  grid-row-gap: 12px;
 }
 
 .disclaimer,
 .label {
-  color: $grey-dark;
+  color: #111111;
+}
+
+.label {
+  margin-bottom: 12px;
 }
 
 .input {

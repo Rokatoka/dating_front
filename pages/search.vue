@@ -84,13 +84,19 @@
       </template>
     </div>
 
-    <messenger v-if='messengerVisible' @onClose='messengerVisible = false' />
+    <messenger
+      v-if='messengerVisible'
+      :pickup-phrases='phrases'
+      @onClose='messengerVisible = false'
+    />
 
     <block-user-modal v-if='blockUserModalVisible' @onClose='blockUserModalVisible = false' />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import { MOCK_INTERESTS, MOCK_CITIES } from '../data';
 
 import UserCard from '~/components/UserCard.vue';
@@ -135,6 +141,19 @@ export default {
       MOCK_CITIES,
     }
   },
+  async fetch({ store, error }) {
+    try {
+      await store.dispatch('pickupPhrases/getPhrases');
+    } catch (e) {
+      error({
+        statusCode: 500,
+        message: 'something went wrong',
+      })
+    }
+  },
+  computed: mapState({
+    phrases: (state) => state.pickupPhrases.phrases,
+  }),
 }
 </script>
 

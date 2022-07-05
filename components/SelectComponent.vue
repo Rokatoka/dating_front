@@ -2,7 +2,8 @@
   <div :class='$style.wrapper'>
     <label
       v-if='label'
-      :class='$style.label'
+      :class='[$style.label, customClass]'
+      v-bind='$attrs'
     >
       {{ label }}
     </label>
@@ -43,7 +44,11 @@ export default {
     isSearch: {
       type: Boolean,
       default: false,
-    }
+    },
+    customClass: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     selectClass() {
@@ -65,7 +70,7 @@ export default {
 }
 
 .label {
-  color: $grey-dark;
+  color: #111111;
 }
 
 .select {

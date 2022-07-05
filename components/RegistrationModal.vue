@@ -28,7 +28,11 @@
         </div>
 
         <div :class='$style.row'>
-          <validation-provider name='Имя' rules='required' v-slot='{ errors }'>
+          <validation-provider
+            v-slot='{ errors }'
+            name='Имя'
+            rules='required'
+          >
             <input-component
               v-model='form.name'
               label='Имя'
@@ -37,7 +41,11 @@
             />
           </validation-provider>
 
-          <validation-provider name='Фамилия' rules='required' v-slot='{ errors }'>
+          <validation-provider
+            v-slot='{ errors }'
+            name='Фамилия'
+            rules='required'
+          >
             <input-component
               v-model='form.surname'
               label='Фамилия'
@@ -48,7 +56,11 @@
         </div>
 
         <div :class='$style.row'>
-          <validation-provider name='Пароль' rules='password' v-slot='{ errors }'>
+          <validation-provider
+            v-slot='{ errors }'
+            name='Пароль'
+            rules='password'
+          >
             <input-component
               v-model='form.password'
               label='Пароль'
@@ -59,7 +71,11 @@
             />
           </validation-provider>
 
-          <validation-provider name='Email' rules='required|email' v-slot='{ errors }'>
+          <validation-provider
+            v-slot='{ errors }'
+            name='Email'
+            rules='required|email'
+          >
             <input-component
               v-model='form.email'
               label='Email'
@@ -77,21 +93,24 @@
 
             <div :class='$style.selects'>
               <select-component
-                v-model='form.birthDate.day'
+                v-model='day'
                 label='День'
-                :options='MOCK_DAYS'
+                :options='days'
+                :custom-class='$style.selectLabel'
               />
 
               <select-component
-                v-model='form.birthDate.month'
+                v-model='month'
                 label='Месяц'
                 :options='MOCK_MONTHS'
+                :custom-class='$style.selectLabel'
               />
 
               <select-component
-                v-model='form.birthDate.year'
+                v-model='year'
                 label='Год'
-                :options='MOCK_YEARS'
+                :options='years'
+                :custom-class='$style.selectLabel'
               />
             </div>
           </div>
@@ -154,6 +173,8 @@
           </button-component>
         </div>
       </validation-observer>
+
+      <registration-success-modal v-if='successModalVisible' @onClose='handleFinish' />
     </div>
   </transition>
 </template>
@@ -168,7 +189,6 @@ import {
   MOCK_GENDERS,
   MOCK_INTERESTS,
   MOCK_RELIGION,
-  MOCK_YEARS,
   MOCK_COUNTRIES,
   MOCK_CITIES,
 } from '../data'
@@ -179,6 +199,9 @@ import RadioInputGroup from './RadioInputGroup.vue';
 import TextAreaComponent from './TextAreaComponent.vue';
 import InterestsBlock from './InterestsBlock.vue';
 import ButtonComponent from './ButtonComponent.vue';
+import RegistrationSuccessModal from './RegistrationSuccessModal.vue';
+
+import { createUser } from '~/services/users';
 
 export default {
   name: 'RegistrationModal',
@@ -189,46 +212,91 @@ export default {
     TextAreaComponent,
     InterestsBlock,
     ButtonComponent,
+    RegistrationSuccessModal,
     ValidationObserver,
     ValidationProvider,
   },
   data() {
     return {
+      successModalVisible: false,
       form: {
         name: '',
         surname: '',
         password: '',
         email: '',
-        gender: 'female',
+        gender: 'woman',
         goal: 'fun',
         religion: 'islam',
         city: 'almaty',
         country: 'kz',
-        birthDate: {
-          day: '01',
-          month: '01',
-          year: '1996'
-        },
         about: '',
-        interests: [],
+        interests: 'asdv',
       },
+      day: '01',
+      month: '01',
+      year: '1996',
       MOCK_DAYS,
       MOCK_MONTHS,
       MOCK_GOALS,
       MOCK_GENDERS,
       MOCK_INTERESTS,
       MOCK_RELIGION,
-      MOCK_YEARS,
       MOCK_COUNTRIES,
       MOCK_CITIES,
+    }
+  },
+  computed: {
+    username() {
+      return this.form.name;
+    },
+    date() {
+      return `${this.year}-${this.month}-${this.day}`
+    },
+    days() {
+      if (['01', '03', '05', '07', '08', '10', '12'].includes(this.month)) {
+        return this.MOCK_DAYS;
+      } else if (['04', '06', '09', '11'].includes(this.month)) {
+        return this.MOCK_DAYS.slice(0, -1);
+      } else if (this.month === '02' && this.year % 4 === 0 ) {
+        return this.MOCK_DAYS.slice(0, -2);
+      } else {
+        return this.MOCK_DAYS.slice(0, -3);
+      }
+    },
+    years() {
+      const currentYear = new Date();
+      const years = [];
+      for (let i = 1950; i <= currentYear.getFullYear(); i++) {
+        years.push({
+          name: i,
+          value: i,
+        });
+      }
+
+      return years;
     }
   },
   methods: {
     handleUpdateInterest(list) {
       this.form.interests = list;
     },
-    handleSubmitForm() {
-      console.log(this.form);
+    handleFinish() {
+      this.successModalVisible = false;
+
+      this.$emit('onClose');
+    },
+    async handleSubmitForm() {
+      try {
+        await createUser({
+          ...this.form,
+          username: this.username,
+          date: this.date,
+        });
+
+        this.successModalVisible = true;
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 }
@@ -253,6 +321,7 @@ export default {
   height: 100%;
   padding: 28px 64px;
   background-color: $white;
+  overflow-y: auto;
 }
 
 .row {
@@ -262,6 +331,7 @@ export default {
 
   &--center {
     align-items: center;
+    margin-top: 20px;
   }
 }
 
@@ -280,6 +350,10 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 10px;
   margin-top: 12px;
+}
+
+.selectLabel {
+  color: $grey-dark;
 }
 
 .button {
