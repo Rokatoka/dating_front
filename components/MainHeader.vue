@@ -26,8 +26,13 @@
 
     <div :class='$style.control'>
       <select :class='$style.select'>
-        <option>Русский (RU)</option>
-        <option>Казахский (KZ)</option>
+        <option
+          v-for='lang in LANG_OPTIONS'
+          :key='lang'
+          :value='lang.value'
+        >
+          {{ lang.label }}
+        </option>
       </select>
 
       <button-component :custom-class='$style.button'>
@@ -38,6 +43,7 @@
 </template>
 
 <script>
+import { LANG_OPTIONS } from '../data';
 import ButtonComponent from './ButtonComponent.vue';
 
 export default {
@@ -47,6 +53,7 @@ export default {
   },
   data() {
     return {
+      LANG_OPTIONS,
       navLinks: [
         {
           name: 'Профиль',

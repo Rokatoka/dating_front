@@ -99,7 +99,7 @@ export default {
   position: relative;
   display: grid;
   grid-row-gap: 10px;
-  color: $grey-dark;
+  color: #111111;
 
   input[type="text"] {
     @extend %typography-mont-thin;
@@ -138,8 +138,9 @@ export default {
   }
 }
 
-.input-component__disclaimer {
+.disclaimer {
   position: absolute;
   bottom: -20px;
+  color: $grey-dark;
 }
 </style>

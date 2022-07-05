@@ -56,13 +56,13 @@ export default {
 
         this.selectedOptions.push(option);
 
-        this.$emit('onUpdateList', this.selectedOptions);
+        this.$emit('onUpdateList', this.selectedOptions.map((item) => item.value).toString());
       }
     },
     handleRemoveOption(index) {
       this.selectedOptions.splice(index, 1);
 
-      this.$emit('onUpdateList', this.selectedOptions);
+      this.$emit('onUpdateList', this.selectedOptions.map((item) => item.value).toString());
     }
   }
 }
@@ -75,7 +75,7 @@ export default {
 }
 
 .label {
-  color: $grey-dark;
+  color: #111111;
 }
 
 .container {

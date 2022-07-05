@@ -57,7 +57,7 @@ export default {
 }
 
 .label {
-  color: $grey-dark;
+  color: #111111;
 }
 
 .options {

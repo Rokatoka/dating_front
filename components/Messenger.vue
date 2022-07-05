@@ -53,10 +53,13 @@
 
           <div :class='$style.messagePickupPhrases'>
             <div v-for='phrase in pickupPhrases' :key='phrase'>
-              <div :class='$style.phrase' @click='writePhrase(phrase)'>
+              <div
+                :class='$style.phrase'
+                @click='writePhrase(phrase.attributes.title)'
+              >
                 <write-icon />
 
-                {{ phrase }}
+                {{ phrase.attributes.title }}
               </div>
             </div>
           </div>
@@ -112,6 +115,12 @@ export default {
     WriteIcon,
     ButtonComponent,
   },
+  props: {
+    pickupPhrases: {
+      type: Array,
+      default: () => [],
+    }
+  },
   data() {
     return {
       messageText: '',
@@ -127,11 +136,6 @@ export default {
           isYours: true,
         },
       ],
-      pickupPhrases: [
-        'привет',
-        'как дела?',
-        'чем занимаешься?'
-      ]
     }
   },
   methods: {

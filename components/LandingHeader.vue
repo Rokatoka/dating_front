@@ -55,5 +55,6 @@ export default {
   border: none;
   color: white;
   outline: none;
+  font-size: 16px;
 }
 </style>
