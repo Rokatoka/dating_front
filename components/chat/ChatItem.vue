@@ -6,7 +6,7 @@
     <div :class='$style.chatItemWrapper'>
       <div :class='$style.chatItemInfo'>
         <div :class='[$style.imageWrapper, $style.offline]'>
-          <span :class='$style.newMessage'>3</span>
+          <span :class='$style.newMessage' />
 
           <img :class='$style.infoImg' src='~/static/profile.png' alt='user' />
         </div>
@@ -115,7 +115,7 @@ export default {
 
 .newMessage {
   position: absolute;
-  left: -15px;
+  left: -12px;
   top: 10px;
   display: inline-block;
   text-align: center;

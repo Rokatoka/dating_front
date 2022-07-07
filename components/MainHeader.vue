@@ -14,13 +14,6 @@
         :to='link.path'
       >
         {{ link.name }}
-
-        <span
-          v-if="link.name === 'Сообщения'"
-          :class="$style['link-counter']"
-        >
-          5
-        </span>
       </nuxt-link>
     </nav>
 
@@ -58,10 +51,6 @@ export default {
         {
           name: 'Профиль',
           path: '/profile'
-        },
-        {
-          name: 'Сообщения',
-          path: '/messages'
         },
         {
           name: 'Поиск',
@@ -122,17 +111,6 @@ export default {
   &:hover {
     color: $black-hovered;
   }
-}
-
-.link-counter {
-  display: inline-block;
-  text-align: center;
-  width: 20px;
-  height: 20px;
-  margin-left: 12px;
-  background-color: $red-light;
-  color: white;
-  border-radius: 50%;
 }
 
 .control {
