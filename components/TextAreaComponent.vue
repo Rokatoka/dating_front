@@ -7,6 +7,7 @@
     <textarea
       :class='$style.input'
       :value='value'
+      :disabled='isDisabled'
       @input='handleValueChange'
     />
 
@@ -29,6 +30,10 @@ export default {
     value: {
       type: String,
       required: true,
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false,
     }
   },
   methods: {

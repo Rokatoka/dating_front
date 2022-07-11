@@ -4,7 +4,11 @@
       {{ label }}
     </label>
 
-    <select-component :options='options' @input='handleAddOption' />
+    <select-component
+      v-if='!isDisabled'
+      :options='options'
+      @input='handleAddOption'
+    />
 
     <div :class='$style.container'>
       <div
@@ -12,7 +16,7 @@
         :key='option.value'
         :class="$style['container__item']"
       >
-        {{ option.name }}
+        {{ option.label }}
 
         <remove-item-icon
           :class="$style['container__item__icon']"
@@ -43,6 +47,10 @@ export default {
       type: Array,
       default: () => []
     },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {

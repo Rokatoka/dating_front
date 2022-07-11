@@ -16,8 +16,8 @@
           @change='handleChangeValue'
         />
 
-        <span :key='option.name'>
-          {{ option.name }}
+        <span :key='option.label'>
+          {{ option.label }}
         </span>
       </template>
     </div>

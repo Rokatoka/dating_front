@@ -34,15 +34,31 @@
         </div>
 
         <div :class='$style.imagesBlock'>
-          <img src='~/static/profile.png' alt='profile'>
+          <div :class='$style.profileImageBlock'>
+            <img src='~/static/profile.png' alt='profile'>
 
-          <img src='~/static/profile.png' alt='profile'>
+            <div
+              :class='$style.profileImageControl'
+              @click='deleteImageVisible = true'
+            >
+              <trash-icon />
+
+              <span>Удалить фото</span>
+            </div>
+          </div>
 
           <div :class='$style.newImage' @click='handleAddImage'>
             <plus-icon />
 
             <span>Добавить фото</span>
           </div>
+
+          <span
+            v-if='imageSizeError'
+            :class='$style.imageError'
+          >
+            Размер фото не должен превышать 5МБ
+          </span>
         </div>
       </div>
 
@@ -56,18 +72,21 @@
             v-model='form.birthDate.day'
             label='День'
             :options='MOCK_DAYS'
+            is-disabled
           />
 
           <select-component
             v-model='form.birthDate.month'
             label='Месяц'
             :options='MOCK_MONTHS'
+            is-disabled
           />
 
           <select-component
             v-model='form.birthDate.year'
             label='Год'
             :options='MOCK_YEARS'
+            is-disabled
           />
         </div>
       </div>
@@ -77,6 +96,7 @@
           v-model='form.interests'
           label='Интересы'
           :options='MOCK_INTERESTS'
+          is-disabled
         />
       </div>
     </div>
@@ -100,7 +120,7 @@
       <text-area-component
         v-model='form.about'
         label='Обо мне'
-        disclaimer='Не более 150 символов'
+        is-disabled
       />
 
       <div>
@@ -172,6 +192,11 @@
       v-if='messengerVisible'
       @onClose='messengerVisible = false'
     />
+
+    <delete-image-modal
+      v-if='deleteImageVisible'
+      @onClose='deleteImageVisible = false'
+    />
   </div>
 </template>
 
@@ -190,10 +215,12 @@ import InterestsBlock from '~/components/InterestsBlock.vue';
 import TextAreaComponent from '~/components/TextAreaComponent.vue'
 import BlockUserModal from '~/components/BlockUserModal.vue';
 import RegistrationModal from '~/components/RegistrationModal.vue';
+import DeleteImageModal from '~/components/DeleteImageModal.vue';
 import ChatItem from '~/components/chat/ChatItem.vue';
 import Messenger from '~/components/Messenger.vue';
 import PlusIcon from '~/icons/PlusIcon.vue';
 import SettingsIcon from '~/icons/SettingsIcon.vue';
+import TrashIcon from '~/icons/TrashIcon.vue';
 
 export default {
   name: 'ProfilePage',
@@ -207,8 +234,10 @@ export default {
     BlockUserModal,
     SettingsIcon,
     RegistrationModal,
+    DeleteImageModal,
     Messenger,
     ChatItem,
+    TrashIcon,
   },
   data() {
     return {
@@ -216,6 +245,8 @@ export default {
       blockUserModalVisible: false,
       registrationModalVisible: false,
       messengerVisible: false,
+      deleteImageVisible: false,
+      imageSizeError: false,
       form: {
         name: '',
         surname: '',
@@ -247,6 +278,7 @@ export default {
       input.accept = 'image/png, image/gif, image/jpeg';
       input.onchange = () => {
         const files = Array.from(input.files);
+        this.imageSizeError = files[0].size > 5 * 1000000
         console.log(files);
       };
       input.click();
@@ -351,6 +383,10 @@ export default {
   }
 }
 
+.infoImg {
+  border-radius: 50%;
+}
+
 .imageWrapper.offline {
   &:after {
     background-color: $grey-light;
@@ -364,8 +400,52 @@ export default {
 }
 
 .imagesBlock {
+  position: relative;
   display: flex;
+  flex: 1 0 0;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 10px;
+}
+
+.profileImageBlock {
+  position: relative;
+  img {
+    cursor: pointer;
+  }
+}
+
+.profileImageBlock:hover > .profileImageControl{
+  opacity: 1;
+}
+
+.profileImageBlock:hover > img{
+  filter: blur(1px);
+}
+
+.profileImageControl {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: $white;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.imageError {
+  position: absolute;
+  bottom: -16px;
+  color: $red;
+  font-size: 10px;
 }
 
 .newImage {

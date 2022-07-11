@@ -268,8 +268,8 @@ export default {
       const years = [];
       for (let i = 1950; i <= currentYear.getFullYear(); i++) {
         years.push({
-          name: i,
-          value: i,
+          label: i.toString(),
+          value: i.toString(),
         });
       }
 
@@ -285,17 +285,19 @@ export default {
 
       this.$emit('onClose');
     },
-    async handleSubmitForm() {
-      try {
-        await createUser({
-          ...this.form,
-          username: this.username,
-          date: this.date,
-        });
+    async handleSubmitForm(e) {
+      if (!['vue-simple-select-option', 'vue-simple-select-button'].includes(e.submitter.className)) {
+        try {
+          await createUser({
+            ...this.form,
+            username: this.username,
+            date: this.date,
+          });
 
-        this.successModalVisible = true;
-      } catch (e) {
-        console.error(e);
+          this.successModalVisible = true;
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }

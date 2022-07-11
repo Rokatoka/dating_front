@@ -1,254 +1,254 @@
 export const MOCK_GOALS = [
   {
-    name: 'Отношения',
+    label: 'Отношения',
     value: 'relationship'
   },
   {
-    name: 'Досуг',
+    label: 'Досуг',
     value: 'fun'
   },
 ];
 
 export const MOCK_RELIGION = [
   {
-    name: 'Ислам',
+    label: 'Ислам',
     value: 'islam',
   },
   {
-    name: 'Буддизм',
+    label: 'Буддизм',
     value: 'buddism',
   }
 ];
 
 export const MOCK_CITIES = [
   {
-    name: 'Астана',
+    label: 'Астана',
     value: 'astana',
   },
   {
-    name: 'Алматы',
+    label: 'Алматы',
     value: 'almaty',
   }
 ];
 
 export const MOCK_COUNTRIES = [
   {
-    name: 'Казахстан',
+    label: 'Казахстан',
     value: 'kz',
   },
   {
-    name: 'Америка',
+    label: 'Америка',
     value: 'usa',
   }
 ];
 
 export const MOCK_GENDERS = [
   {
-    name: 'Женщина',
+    label: 'Женщина',
     value: 'woman',
   },
   {
-    name: 'Мужчина',
+    label: 'Мужчина',
     value: 'man',
   },
 ];
 
 export const MOCK_INTERESTS = [
   {
-    name: 'Кино',
+    label: 'Кино',
     value: 'movies'
   },
   {
-    name: 'Музыка',
+    label: 'Музыка',
     value: 'music'
   },
   {
-    name: 'Книги',
+    label: 'Книги',
     value: 'books'
   }
 ];
 
 export const MOCK_DAYS = [
   {
-    name: '01',
+    label: '01',
     value: '01'
   },
   {
-    name: '02',
+    label: '02',
     value: '02'
   },
   {
-    name: '03',
+    label: '03',
     value: '03'
   },
   {
-    name: '04',
+    label: '04',
     value: '04'
   },
   {
-    name: '05',
+    label: '05',
     value: '05'
   },
   {
-    name: '06',
+    label: '06',
     value: '06'
   },
   {
-    name: '07',
+    label: '07',
     value: '07'
   },
   {
-    name: '08',
+    label: '08',
     value: '08'
   },
   {
-    name: '09',
+    label: '09',
     value: '09'
   },
   {
-    name: '10',
+    label: '10',
     value: '10'
   },
   {
-    name: '11',
+    label: '11',
     value: '11'
   },
   {
-    name: '12',
+    label: '12',
     value: '12'
   },
   {
-    name: '13',
+    label: '13',
     value: '13'
   },
   {
-    name: '14',
+    label: '14',
     value: '14'
   },
   {
-    name: '15',
+    label: '15',
     value: '15'
   },
   {
-    name: '16',
+    label: '16',
     value: '16'
   },
   {
-    name: '17',
+    label: '17',
     value: '17'
   },
   {
-    name: '18',
+    label: '18',
     value: '18'
   },
   {
-    name: '19',
+    label: '19',
     value: '19'
   },
   {
-    name: '20',
+    label: '20',
     value: '20'
   },
   {
-    name: '21',
+    label: '21',
     value: '21'
   },
   {
-    name: '22',
+    label: '22',
     value: '22'
   },
   {
-    name: '23',
+    label: '23',
     value: '23'
   },
   {
-    name: '24',
+    label: '24',
     value: '24'
   },
   {
-    name: '25',
+    label: '25',
     value: '25'
   },
   {
-    name: '26',
+    label: '26',
     value: '26'
   },
   {
-    name: '27',
+    label: '27',
     value: '27'
   },
   {
-    name: '28',
+    label: '28',
     value: '28'
   },
   {
-    name: '29',
+    label: '29',
     value: '29'
   },
   {
-    name: '30',
+    label: '30',
     value: '30'
   },
   {
-    name: '31',
+    label: '31',
     value: '31'
   },
 ];
 
 export const MOCK_MONTHS = [
   {
-    name: 'январь',
+    label: 'январь',
     value: '01'
   },
   {
-    name: 'февраль',
+    label: 'февраль',
     value: '02'
   },
   {
-    name: 'март',
+    label: 'март',
     value: '03'
   },
   {
-    name: 'апрель',
+    label: 'апрель',
     value: '04'
   },
   {
-    name: 'май',
+    label: 'май',
     value: '05'
   },
   {
-    name: 'июнь',
+    label: 'июнь',
     value: '06'
   },
   {
-    name: 'июль',
+    label: 'июль',
     value: '07'
   },
   {
-    name: 'август',
+    label: 'август',
     value: '08'
   },
   {
-    name: 'сентябрь',
+    label: 'сентябрь',
     value: '09'
   },
   {
-    name: 'октябрь',
+    label: 'октябрь',
     value: '10'
   },
   {
-    name: 'ноябрь',
+    label: 'ноябрь',
     value: '11'
   },
   {
-    name: 'декабрь',
+    label: 'декабрь',
     value: '12'
   }
 ];
 
 export const MOCK_YEARS = [
   {
-    name: '1996',
+    label: '1996',
     value: '1996'
   }
 ];
