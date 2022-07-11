@@ -18,8 +18,6 @@
           </div>
 
           <div :class='$style.headControl'>
-            <minimize-icon />
-
             <close-icon @click.native="$emit('onClose')" />
           </div>
         </div>
@@ -97,7 +95,6 @@
 
 <script>
 import ButtonComponent from './ButtonComponent.vue';
-import MinimizeIcon from '~/icons/MinimizeIcon.vue';
 import CloseIcon from '~/icons/CloseIcon.vue';
 import AddImageIcon from '~/icons/AddImageIcon.vue';
 import AddEmojiIcon from '~/icons/AddEmojiIcon.vue';
@@ -107,7 +104,6 @@ import WriteIcon from '~/icons/WriteIcon.vue';
 export default {
   name: 'MessengerBlock',
   components: {
-    MinimizeIcon,
     CloseIcon,
     AddImageIcon,
     AddEmojiIcon,

@@ -22,7 +22,7 @@
         <more-icon @click.stop.native="$emit('onModalOpen')" />
 
         <bell-icon
-          :class='[$style.chatItemDisable, $style.disabled]'
+          :class='[$style.chatItemDisable]'
           @click.stop.native="$emit('onBlockOpen')"
         />
       </div>

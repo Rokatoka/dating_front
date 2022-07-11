@@ -21,7 +21,7 @@
       <select :class='$style.select'>
         <option
           v-for='lang in LANG_OPTIONS'
-          :key='lang'
+          :key='lang.value'
           :value='lang.value'
         >
           {{ lang.label }}
