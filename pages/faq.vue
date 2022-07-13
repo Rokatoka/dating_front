@@ -6,6 +6,7 @@
 
 <script>
 export default {
-  name: 'FAQPage'
+  name: 'FAQPage',
+  middleware: 'auth',
 }
 </script>
