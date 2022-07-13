@@ -12,6 +12,7 @@
         :key='link.name'
         :class="$style['link-item']"
         :to='link.path'
+        :exact-active-class='$style.active'
       >
         {{ link.name }}
       </nuxt-link>
@@ -28,7 +29,10 @@
         </option>
       </select>
 
-      <button-component :custom-class='$style.button'>
+      <button-component
+        :custom-class='$style.button'
+        @click='$auth.logout()'
+      >
         Выйти
       </button-component>
     </div>
@@ -111,6 +115,10 @@ export default {
   &:hover {
     color: $black-hovered;
   }
+}
+
+.active {
+  color: $red;
 }
 
 .control {

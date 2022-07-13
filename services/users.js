@@ -1,5 +1,3 @@
-import api from './api';
-
 export const createUser = (data) => {
-  return api.post('/users', data);
+  return this.$axios.post('/users', data);
 };

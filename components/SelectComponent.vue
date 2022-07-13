@@ -114,6 +114,7 @@ export default {
   max-height: 250px;
   overflow-y: auto;
   background-color: $white;
+  border-radius: 10px !important;
   z-index: 1;
 }
 </style>

@@ -21,6 +21,13 @@
         is-search
       />
 
+      <select-component
+        v-model='filter.goal'
+        label='Цель'
+        :options='MOCK_GOALS'
+        is-search
+      />
+
       <input-component
         v-model='filter.ageFrom'
         label='Возраст от'
@@ -97,7 +104,11 @@
 <script>
 import { mapState } from 'vuex'
 
-import { MOCK_INTERESTS, MOCK_CITIES } from '../data';
+import {
+  MOCK_INTERESTS,
+  MOCK_CITIES,
+  MOCK_GOALS,
+} from '../data';
 
 import UserCard from '~/components/UserCard.vue';
 import SelectComponent from '~/components/SelectComponent.vue';
@@ -124,6 +135,7 @@ export default {
     ChevronIcon,
     ButtonComponent,
   },
+  middleware: 'auth',
   data() {
     return {
       isChatHidden: true,
@@ -134,11 +146,13 @@ export default {
       filter: {
         interest: '',
         city: '',
+        goal: '',
         ageFrom: 18,
         ageTo: 35
       },
       MOCK_INTERESTS,
       MOCK_CITIES,
+      MOCK_GOALS,
     }
   },
   async fetch({ store, error }) {
@@ -160,6 +174,7 @@ export default {
 <style lang='scss' module>
 .filter {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   align-items: flex-end;
   padding: 44px 40px 32px;

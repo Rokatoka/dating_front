@@ -43,6 +43,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
+    '@nuxtjs/auth-next',
   ],
 
   styleResources: {
@@ -52,11 +53,39 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'https://astro-it.kz/api',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vee-validate']
   },
+
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/profile'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'jwt'
+        },
+        user: {
+          property: false,
+        },
+        endpoints: {
+          login: { url: '/auth/local', method: 'post' },
+          user: { url: '/users/me', method: 'get' },
+          logout: false,
+        },
+      }
+    }
+  }
 }

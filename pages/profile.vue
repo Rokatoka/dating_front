@@ -25,7 +25,7 @@
           </div>
 
           <div :class='$style.infoBlock'>
-            <span :class='$style.profileName'>Марат Альжанов</span>
+            <span :class='$style.profileName'>{{ $auth.user.username }}</span>
 
             <span :class='$style.profileInfo'>Тел.: +7 (701) 000 00 00</span>
 
@@ -118,7 +118,7 @@
 
     <div :class='$style.additionalInfo'>
       <text-area-component
-        v-model='form.about'
+        v-model='$auth.user.about'
         label='Обо мне'
         is-disabled
       />
@@ -239,6 +239,7 @@ export default {
     ChatItem,
     TrashIcon,
   },
+  middleware: 'auth',
   data() {
     return {
       userCardModalVisible: false,
