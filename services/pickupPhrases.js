@@ -1,3 +1,5 @@
+import api from './api';
+
 export const getPickupPhrases = () => {
-  return this.$axios.get('/pickup-phrases');
+  return api.get('/pickup-phrases');
 };

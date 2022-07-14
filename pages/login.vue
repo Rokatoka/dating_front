@@ -55,8 +55,8 @@ export default {
   middleware: 'auth',
   data() {
     return {
-      identifier: 'rollan.sharipov@gmail.ru',
-      password: 'qwertyred',
+      identifier: '',
+      password: '',
       error: ''
     }
   },

@@ -31,25 +31,35 @@
 
       <button-component
         :custom-class='$style.button'
-        @click='$auth.logout()'
+        @click='isLogoutModalVisible = true'
       >
         Выйти
       </button-component>
     </div>
+
+    <logout-modal
+      v-if='isLogoutModalVisible'
+      @onClose='isLogoutModalVisible = false'
+      @onConfirm='handleLogout'
+    />
   </div>
 </template>
 
 <script>
 import { LANG_OPTIONS } from '../data';
+
 import ButtonComponent from './ButtonComponent.vue';
+import LogoutModal from './LogoutModal.vue';
 
 export default {
   name: 'MainHeader',
   components: {
     ButtonComponent,
+    LogoutModal,
   },
   data() {
     return {
+      isLogoutModalVisible: false,
       LANG_OPTIONS,
       navLinks: [
         {
@@ -70,6 +80,11 @@ export default {
   methods: {
     handleRedirect() {
       this.$router.push({ name: 'index' })
+    },
+    handleLogout() {
+      this.isLogoutModalVisible = false;
+
+      this.$auth.logout()
     }
   }
 }
