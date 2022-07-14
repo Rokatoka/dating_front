@@ -1,3 +1,5 @@
+import api from './api';
+
 export const getCurrentUser = () => {
-  return this.$axios.get('/users/me');
+  return api.get('/users/me');
 };

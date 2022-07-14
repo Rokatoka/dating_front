@@ -27,7 +27,7 @@
           <div :class='$style.infoBlock'>
             <span :class='$style.profileName'>{{ $auth.user.username }}</span>
 
-            <span :class='$style.profileInfo'>Тел.: +7 (701) 000 00 00</span>
+            <span :class='$style.profileInfo'>{{ $auth.user.email }}</span>
 
             <span :class='$style.profileInfo'>г. Алматы</span>
           </div>
