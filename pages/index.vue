@@ -27,20 +27,6 @@
       <div :class='$style.statistics'>
         <div :class='$style.statisticsBlock'>
           <span :class='[$style.statisticsItem, $style.title]'>
-            Пользователи
-          </span>
-
-          <span :class='[$style.statisticsItem, $style.data]'>
-            120 ч.
-          </span>
-
-          <span :class='[$style.statisticsItem, $style.description]'>
-            новых пользователей каждый день
-          </span>
-        </div>
-
-        <div :class='$style.statisticsBlock'>
-          <span :class='[$style.statisticsItem, $style.title]'>
             Сердца
           </span>
 
@@ -51,6 +37,32 @@
           <span :class='[$style.statisticsItem, $style.description]'>
             пар нашедних свою любовь
           </span>
+        </div>
+
+        <div :class='$style.statisticsBlock'>
+          <a
+            :class='$style.link'
+            href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            target='_blank'
+          >
+            О Нас
+          </a>
+
+          <a
+            :class='$style.link'
+            href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            target='_blank'
+          >
+            Условия
+          </a>
+
+          <a
+            :class='$style.link'
+            href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            target='_blank'
+          >
+            Политика конфиденциальности
+          </a>
         </div>
       </div>
     </footer>
@@ -150,6 +162,7 @@ export default {
 .statisticsBlock {
   display: grid;
   grid-row-gap: 10px;
+  align-items: center;
 }
 
 .statisticsItem {
@@ -173,5 +186,12 @@ export default {
     font-size: 14px;
     line-height: 17px;
   }
+}
+
+.link {
+  @extend %typography-gotham-bold;
+
+  color: $white;
+  font-size: 14px;
 }
 </style>

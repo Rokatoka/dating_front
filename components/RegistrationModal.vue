@@ -153,21 +153,39 @@
           <select-component
             v-model='form.city'
             label='Город'
-            :options='MOCK_CITIES'
+            :options='cities'
+            options-on-top
           />
 
           <select-component
             v-model='form.country'
             label='Страна'
-            :options='MOCK_COUNTRIES'
+            :options='countries'
+            options-on-top
           />
         </div>
 
         <div :class='$style.row'>
+          <div :class='$style.checkbox'>
+            <checkbox-component v-model='agreement' />
+
+            Я принимаю <a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>Условия</a>
+          </div>
+        </div>
+
+        <div :class='[$style.row, $style.rowControl]'>
+          <button-component
+            type='button'
+            :custom-class='$style.buttonGrey'
+            @click="$emit('onClose')"
+          >
+            Отмена
+          </button-component>
+
           <button-component
             type='submit'
             :custom-class='$style.button'
-            :disabled='invalid'
+            :disabled='invalid || !agreement'
           >
             Готово
           </button-component>
@@ -189,8 +207,6 @@ import {
   MOCK_GENDERS,
   MOCK_INTERESTS,
   MOCK_RELIGION,
-  MOCK_COUNTRIES,
-  MOCK_CITIES,
 } from '../data'
 
 import InputComponent from './InputComponent.vue';
@@ -200,8 +216,10 @@ import TextAreaComponent from './TextAreaComponent.vue';
 import InterestsBlock from './InterestsBlock.vue';
 import ButtonComponent from './ButtonComponent.vue';
 import RegistrationSuccessModal from './RegistrationSuccessModal.vue';
+import CheckboxComponent from './CheckboxComponent.vue';
 
 import { createUser } from '~/services/users';
+import { getCountries, getCitiesByCountryId } from '~/services/data';
 
 export default {
   name: 'RegistrationModal',
@@ -213,6 +231,7 @@ export default {
     InterestsBlock,
     ButtonComponent,
     RegistrationSuccessModal,
+    CheckboxComponent,
     ValidationObserver,
     ValidationProvider,
   },
@@ -227,11 +246,12 @@ export default {
         gender: 'woman',
         goal: 'fun',
         religion: 'islam',
-        city: 'almaty',
-        country: 'kz',
+        city: '',
+        country: '',
         about: '',
-        interests: 'asdv',
+        interests: '',
       },
+      agreement: false,
       day: '01',
       month: '01',
       year: '1996',
@@ -241,8 +261,8 @@ export default {
       MOCK_GENDERS,
       MOCK_INTERESTS,
       MOCK_RELIGION,
-      MOCK_COUNTRIES,
-      MOCK_CITIES,
+      countries: [],
+      cities: [],
     }
   },
   computed: {
@@ -276,6 +296,41 @@ export default {
       return years;
     }
   },
+  watch: {
+    async 'form.country'(val) {
+      this.form.city = '';
+
+      await this.handleLoadCities(val);
+    }
+  },
+  async mounted() {
+    try {
+      const response = await getCountries(1);
+      const pages = response.data.meta.pagination.pageCount;
+
+      response.data.data.forEach((country) => {
+        this.countries.push({
+          label: country.attributes.name,
+          value: country.id,
+        });
+      });
+
+      for (let i = 2; i <= pages; i++) {
+        const nextResponse = await getCountries(i);
+
+        nextResponse.data.data.forEach((country) => {
+          this.countries.push({
+            label: country.attributes.name,
+            value: country.id,
+          });
+        });
+      }
+
+      this.form.country = response.data.data[0].id
+    } catch(e) {
+      console.error(e);
+    }
+  },
   methods: {
     handleUpdateInterest(list) {
       this.form.interests = list;
@@ -284,6 +339,21 @@ export default {
       this.successModalVisible = false;
 
       this.$emit('onClose');
+    },
+    async handleLoadCities(countryId) {
+      this.cities = [];
+      try {
+        const response = await getCitiesByCountryId(countryId);
+
+        response.data.data.forEach((city) => {
+          this.cities.push({
+            label: city.attributes.name,
+            value: city.id,
+          });
+        });
+      } catch (e) {
+        console.error(e);
+      }
     },
     async handleSubmitForm(e) {
       if (!['vue-simple-select-option', 'vue-simple-select-button'].includes(e.submitter.className)) {
@@ -335,6 +405,11 @@ export default {
     align-items: center;
     margin-top: 20px;
   }
+
+  &.rowControl {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .title {
@@ -361,12 +436,27 @@ export default {
 .button {
   width: 190px;
   height: 44px;
-  grid-column: 2;
-  margin-left: auto;
 
   &:disabled {
     opacity: .5;
   }
+}
+
+.buttonGrey {
+  width: 190px;
+  height: 44px;
+  margin-right: 16px;
+  background-color: $grey-dark;
+
+  &:hover {
+    background-color: $grey-light;
+  }
+}
+
+.checkbox {
+  display: flex;
+  gap: 10px;
+  grid-column: 2;
 }
 
 .transition .wrapper {
