@@ -128,6 +128,7 @@ export default {
   border-radius: 10px;
 
   &.search {
+    height: 50px;
     padding: 8px 16px;
     border: none;
     box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.1);
