@@ -138,7 +138,7 @@ export default {
   },
   middleware: 'auth',
   validate({ store, redirect }) {
-    if (store.state.auth.user.gender === 'man') {
+    if (store.state.auth.user.gender === 'woman') {
       redirect('/profile');
     }
 
