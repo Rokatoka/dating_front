@@ -51,8 +51,9 @@
 
     <div :class='$style.list'>
       <user-card
-        v-for='num in 10'
-        :key='num'
+        v-for='user in usersList'
+        :key='user.id'
+        :user='user'
         @onModalOpen='isUserCardModalVisible = true'
       />
     </div>
@@ -136,6 +137,13 @@ export default {
     ButtonComponent,
   },
   middleware: 'auth',
+  validate({ store, redirect }) {
+    if (store.state.auth.user.gender === 'man') {
+      redirect('/profile');
+    }
+
+    return true;
+  },
   data() {
     return {
       isChatHidden: true,
@@ -157,6 +165,7 @@ export default {
   },
   async fetch({ store, error }) {
     try {
+      await store.dispatch('user/getList');
       await store.dispatch('pickupPhrases/getPhrases');
     } catch (e) {
       error({
@@ -167,6 +176,7 @@ export default {
   },
   computed: mapState({
     phrases: (state) => state.pickupPhrases.phrases,
+    usersList: (state) => state.user.list,
   }),
 }
 </script>

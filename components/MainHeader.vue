@@ -7,15 +7,17 @@
     </div>
 
     <nav :class='$style.links'>
-      <nuxt-link
-        v-for='link in navLinks'
-        :key='link.name'
-        :class="$style['link-item']"
-        :to='link.path'
-        :exact-active-class='$style.active'
-      >
-        {{ link.name }}
-      </nuxt-link>
+      <template v-for='link in navLinks'>
+        <nuxt-link
+          v-if="checkRouteVisibility(link.name)"
+          :key='link.name'
+          :class="$style['link-item']"
+          :to='link.path'
+          :exact-active-class='$style.active'
+        >
+          {{ link.name }}
+        </nuxt-link>
+      </template>
     </nav>
 
     <div :class='$style.control'>
@@ -78,6 +80,9 @@ export default {
     }
   },
   methods: {
+    checkRouteVisibility(link) {
+      return link !== 'Поиск' || this.$auth.user.gender === 'man'
+    },
     handleRedirect() {
       this.$router.push({ name: 'index' })
     },

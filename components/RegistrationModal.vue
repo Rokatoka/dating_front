@@ -19,9 +19,11 @@
       >
         <div :class='$style.row'>
           <div>
-            <span :class='$style.title'>Добро пожаловать</span>
+            <span :class='$style.title'>
+              {{ isEdit ? 'Редактирование профиля' : 'Добро пожаловать' }}
+            </span>
 
-            <div>
+            <div v-if='!isEdit'>
               Если уже зарегистрированны? <nuxt-link to='/login' :class='$style.link'>Войти</nuxt-link>
             </div>
           </div>
@@ -57,6 +59,7 @@
 
         <div :class='$style.row'>
           <validation-provider
+            v-if='!isEdit'
             v-slot='{ errors }'
             name='Пароль'
             rules='password'
@@ -124,15 +127,15 @@
 
         <div :class='$style.row'>
           <select-component
-            v-model='form.goal'
+            v-model='form.target'
             label='Цель'
-            :options='MOCK_GOALS'
+            :options='targets'
           />
 
           <select-component
             v-model='form.religion'
             label='Религия'
-            :options='MOCK_RELIGION'
+            :options='religions'
           />
         </div>
 
@@ -143,29 +146,30 @@
           />
 
           <interests-block
+            :value="isEdit ? $auth.user.interest : ''"
             label='Интересы'
-            :options='MOCK_INTERESTS'
             @onUpdateList='handleUpdateInterest'
           />
         </div>
 
         <div :class='$style.row'>
           <select-component
-            v-model='form.city'
-            label='Город'
-            :options='cities'
-            options-on-top
-          />
-
-          <select-component
             v-model='form.country'
             label='Страна'
             :options='countries'
-            options-on-top
+          />
+
+          <select-component
+            v-model='form.city'
+            label='Город'
+            :options='cities'
           />
         </div>
 
-        <div :class='$style.row'>
+        <div
+          v-if='!isEdit'
+          :class='$style.row'
+        >
           <div :class='$style.checkbox'>
             <checkbox-component v-model='agreement' />
 
@@ -184,15 +188,19 @@
 
           <button-component
             type='submit'
-            :custom-class='$style.button'
-            :disabled='invalid || !agreement'
+            :custom-class='[$style.button, isEdit && $style.buttonEdit]'
+            :disabled='invalid || (!isEdit && !agreement)'
           >
-            Готово
+            {{ isEdit ? 'Сохранить изменения' : 'Готово' }}
           </button-component>
         </div>
       </validation-observer>
 
-      <registration-success-modal v-if='successModalVisible' @onClose='handleFinish' />
+      <registration-success-modal
+        v-if='successModalVisible'
+        :is-edit='isEdit'
+        @onClose='handleFinish'
+      />
     </div>
   </transition>
 </template>
@@ -203,10 +211,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate';
 import {
   MOCK_DAYS,
   MOCK_MONTHS,
-  MOCK_GOALS,
   MOCK_GENDERS,
-  MOCK_INTERESTS,
-  MOCK_RELIGION,
 } from '../data'
 
 import InputComponent from './InputComponent.vue';
@@ -218,8 +223,7 @@ import ButtonComponent from './ButtonComponent.vue';
 import RegistrationSuccessModal from './RegistrationSuccessModal.vue';
 import CheckboxComponent from './CheckboxComponent.vue';
 
-import { createUser } from '~/services/users';
-import { getCountries, getCitiesByCountryId } from '~/services/data';
+import { createUser, updateUser } from '~/services/users';
 
 export default {
   name: 'RegistrationModal',
@@ -235,6 +239,12 @@ export default {
     ValidationObserver,
     ValidationProvider,
   },
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       successModalVisible: false,
@@ -244,12 +254,12 @@ export default {
         password: '',
         email: '',
         gender: 'woman',
-        goal: 'fun',
-        religion: 'islam',
+        target: '',
+        religion: '',
         city: '',
         country: '',
         about: '',
-        interests: '',
+        interest: [],
       },
       agreement: false,
       day: '01',
@@ -257,12 +267,7 @@ export default {
       year: '1996',
       MOCK_DAYS,
       MOCK_MONTHS,
-      MOCK_GOALS,
       MOCK_GENDERS,
-      MOCK_INTERESTS,
-      MOCK_RELIGION,
-      countries: [],
-      cities: [],
     }
   },
   computed: {
@@ -294,75 +299,78 @@ export default {
       }
 
       return years;
-    }
+    },
+    cities() {
+      return this.$store.getters['geo/citiesList']
+    },
+    countries() {
+      return this.$store.getters['geo/countriesList']
+    },
+    targets() {
+      return this.$store.getters['data/targetsList']
+    },
+    religions() {
+      return this.$store.getters['data/religionsList']
+    },
   },
   watch: {
     async 'form.country'(val) {
-      this.form.city = '';
+      this.form.city = this.isEdit && val === this.$auth.user.country.id ? this.$auth.user.city.id : '';
 
-      await this.handleLoadCities(val);
+      await this.$store.dispatch('geo/getCities', val);
     }
   },
-  async mounted() {
+  mounted() {
+    if (this.isEdit) {
+      this.form.email = this.$auth.user.email;
+      this.form.gender = this.$auth.user.gender;
+      this.form.about = this.$auth.user.about;
+      this.form.name = this.$auth.user.name;
+      this.form.surname = this.$auth.user.surname;
+      this.form.target = this.$auth.user.target.id;
+      this.form.religion = this.$auth.user.religion.id;
+      this.form.country = this.$auth.user.country.id;
+      this.form.interest = this.$auth.user.interest.id;
+      this.day = this.$auth.user.date.split('-')[2];
+      this.month = this.$auth.user.date.split('-')[1];
+      this.year = this.$auth.user.date.split('-')[0];
+    }
+
     try {
-      const response = await getCountries(1);
-      const pages = response.data.meta.pagination.pageCount;
-
-      response.data.data.forEach((country) => {
-        this.countries.push({
-          label: country.attributes.name,
-          value: country.id,
-        });
-      });
-
-      for (let i = 2; i <= pages; i++) {
-        const nextResponse = await getCountries(i);
-
-        nextResponse.data.data.forEach((country) => {
-          this.countries.push({
-            label: country.attributes.name,
-            value: country.id,
-          });
-        });
-      }
-
-      this.form.country = response.data.data[0].id
+      this.$store.dispatch('geo/getCountries');
+      this.$store.dispatch('data/getTargets');
+      this.$store.dispatch('data/getReligions');
     } catch(e) {
       console.error(e);
     }
   },
   methods: {
     handleUpdateInterest(list) {
-      this.form.interests = list;
+      this.form.interest = list;
     },
     handleFinish() {
       this.successModalVisible = false;
 
-      this.$emit('onClose');
-    },
-    async handleLoadCities(countryId) {
-      this.cities = [];
-      try {
-        const response = await getCitiesByCountryId(countryId);
+      this.$auth.fetchUser();
 
-        response.data.data.forEach((city) => {
-          this.cities.push({
-            label: city.attributes.name,
-            value: city.id,
-          });
-        });
-      } catch (e) {
-        console.error(e);
-      }
+      this.$emit('onClose');
     },
     async handleSubmitForm(e) {
       if (!['vue-simple-select-option', 'vue-simple-select-button'].includes(e.submitter.className)) {
         try {
-          await createUser({
+          const data = {
             ...this.form,
             username: this.username,
             date: this.date,
-          });
+          };
+
+          if (this.isEdit) {
+            delete data.password;
+
+            await updateUser (data, this.$auth.user.id)
+          } else {
+            await createUser(data);
+          }
 
           this.successModalVisible = true;
         } catch (e) {
@@ -440,6 +448,10 @@ export default {
   &:disabled {
     opacity: .5;
   }
+}
+
+.buttonEdit {
+  background-color: $green;
 }
 
 .buttonGrey {
