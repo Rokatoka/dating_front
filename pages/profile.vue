@@ -22,7 +22,7 @@
         <div :class='$style.info'>
           <div :class='$style.imageWrapper'>
             <img
-              v-if='$auth.user.photo.length'
+              v-if='$auth.user.photo'
               :class='$style.infoImg'
               :src='ASSETS_BASE_URL+$auth.user.photo[0].url'
               alt='profile'
