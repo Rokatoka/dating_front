@@ -62,10 +62,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    optionsOnTop: {
-      type: Boolean,
-      default: false,
-    }
   },
   computed: {
     modelValue() {
@@ -104,7 +100,7 @@ export default {
 
 .vs__dropdown-menu {
   max-height: 200px;
-  z-index: 1;
+  z-index: 2;
 }
 
 .v-select {
@@ -132,6 +128,10 @@ export default {
 
   &.select-disabled {
     background-color: var(--vs-disabled-bg);
+
+    input {
+      display: none;
+    }
   }
 }
 </style>

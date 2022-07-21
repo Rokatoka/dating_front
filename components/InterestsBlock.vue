@@ -19,6 +19,7 @@
         {{ option.label }}
 
         <remove-item-icon
+          v-if='!isDisabled'
           :class="$style['container__item__icon']"
           @click.native='handleRemoveOption(index)'
         />
@@ -43,18 +44,32 @@ export default {
       type: String,
       default: '',
     },
-    options: {
-      type: Array,
-      default: () => []
-    },
     isDisabled: {
       type: Boolean,
       default: false,
+    },
+    value: {
+      type: Object,
+      default: () => {},
     }
   },
   data() {
     return {
       selectedOptions: [],
+    }
+  },
+  computed: {
+    options() {
+      return this.$store.getters['data/interestsList']
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('data/getInterests');
+
+    if (this.value) {
+      const selected = this.options.find((opt) => opt.value === this.value.id)
+
+      this.selectedOptions.push(selected);
     }
   },
   methods: {
@@ -64,13 +79,13 @@ export default {
 
         this.selectedOptions.push(option);
 
-        this.$emit('onUpdateList', this.selectedOptions.map((item) => item.value).toString());
+        this.$emit('onUpdateList', this.selectedOptions.map((item) => item.value));
       }
     },
     handleRemoveOption(index) {
       this.selectedOptions.splice(index, 1);
 
-      this.$emit('onUpdateList', this.selectedOptions.map((item) => item.value).toString());
+      this.$emit('onUpdateList', this.selectedOptions.map((item) => item.value));
     }
   }
 }

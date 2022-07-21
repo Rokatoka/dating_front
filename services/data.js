@@ -7,3 +7,15 @@ export const getCountries = (page) => {
 export const getCitiesByCountryId = (countryId) => {
   return api.get(`/cities?filters[country][id]=${countryId}`);
 }
+
+export const getTargets = () => {
+  return api.get(`/targets`);
+}
+
+export const getReligions = () => {
+  return api.get(`/religions`);
+}
+
+export const getInterests = () => {
+  return api.get(`/interests`);
+}

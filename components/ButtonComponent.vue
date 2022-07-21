@@ -23,7 +23,7 @@ export default {
       default: '',
     },
     customClass: {
-      type: String,
+      type: [String, Array],
       default: '',
     }
   }

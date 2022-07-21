@@ -60,7 +60,10 @@
               Сообщение
             </button-component>
 
-            <button-component :custom-class="$style.button">
+            <button-component
+              :custom-class="$style.button"
+              @click="$emit('onClose')"
+            >
               Закрыть
             </button-component>
           </div>

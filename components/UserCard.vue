@@ -18,7 +18,7 @@
     </div>
 
     <div>
-      <span :class="$style['list-card__name']">Толкын А.</span>
+      <span :class="$style['list-card__name']">{{ user.username }}</span>
 
       <p :class="$style['list-card__description']">
         Люблю кататься на коньках, вкусную пиццу, и романтические фильмы
@@ -47,6 +47,12 @@ export default {
   name: 'UserCard',
   components: {
     ButtonComponent,
+  },
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    }
   },
   methods: {
     handleModalOpen() {

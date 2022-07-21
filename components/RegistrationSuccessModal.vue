@@ -8,9 +8,11 @@
   >
     <div :class='$style.wrapper' @click.self="$emit('onClose')">
       <div :class='$style.success'>
-        <span :class='$style.title'>Регистрация завершена!</span>
+        <span :class='$style.title'>{{ isEdit ? 'Спасибо!' : 'Регистрация завершена!' }}</span>
 
-        <p>Ваша заявка отправлена администратору. Ответ придет вам на почту. Спасибо!</p>
+        <p>
+          {{ isEdit ? 'Ваши данные успешно изменены ' : 'Ваша заявка отправлена администратору.Ответ придет вам на почту.Спасибо!' }}
+        </p>
 
         <div :class='$style.control'>
           <button-component
@@ -31,7 +33,13 @@ export default {
   name: 'RegistrationSuccessModal',
   components: {
     ButtonComponent,
-  }
+  },
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false,
+    },
+  },
 }
 </script>
 

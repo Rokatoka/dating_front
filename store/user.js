@@ -1,25 +1,25 @@
-import { getCurrentUser } from '~/services/auth';
+import { getUsersList } from '~/services/users';
 
 export const state = () => ({
-  currentUser: null,
+  list: [],
 });
 
 export const mutations = {
-  SET_CURRENT_USER: (state, user) => {
-    state.currentUser = user;
+  SET_LIST: (state, list) => {
+    state.list = list;
   }
 };
 
 export const getters = {
-  getUser: (state) => {
-    return state.currentUser;
+  getList: (state) => {
+    return state.list;
   }
 };
 
 export const actions = {
-  getCurrentUser: ({ commit }) => {
-    return getCurrentUser().then((response) => {
-      commit('SET_CURRENT_USER', response.data);
+  getList: ({ commit }) => {
+    return getUsersList().then((response) => {
+      commit('SET_LIST', response.data);
     })
   }
 };

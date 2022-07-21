@@ -1,6 +1,6 @@
 <template>
   <div :class='$style.wrapper'>
-    <user-card @onModalOpen='userCardModalVisible = true' />
+    <user-card :user='$auth.user' @onModalOpen='userCardModalVisible = true' />
 
     <div :class='$style.profileBlock'>
       <div :class='$style.profileRow'>
@@ -21,7 +21,12 @@
       <div :class='$style.profileRow'>
         <div :class='$style.info'>
           <div :class='$style.imageWrapper'>
-            <img :class='$style.infoImg' src='~/static/profile.png' alt='profile'>
+            <img
+              v-if='$auth.user.photo.length'
+              :class='$style.infoImg'
+              :src='ASSETS_BASE_URL+$auth.user.photo[0].url'
+              alt='profile'
+            >
           </div>
 
           <div :class='$style.infoBlock'>
@@ -29,14 +34,12 @@
 
             <span :class='$style.profileInfo'>{{ $auth.user.email }}</span>
 
-            <span :class='$style.profileInfo'>г. Алматы</span>
+            <span :class='$style.profileInfo'>г. {{ $auth.user.city.name }}</span>
           </div>
         </div>
 
         <div :class='$style.imagesBlock'>
           <div :class='$style.profileImageBlock'>
-            <img src='~/static/profile.png' alt='profile'>
-
             <div
               :class='$style.profileImageControl'
               @click='deleteImageVisible = true'
@@ -69,23 +72,23 @@
 
         <div :class='$style.selects'>
           <select-component
-            v-model='form.birthDate.day'
+            v-model="$auth.user.date.split('-')[2]"
             label='День'
-            :options='MOCK_DAYS'
+            :options='days'
             is-disabled
           />
 
           <select-component
-            v-model='form.birthDate.month'
+            v-model="$auth.user.date.split('-')[1]"
             label='Месяц'
             :options='MOCK_MONTHS'
             is-disabled
           />
 
           <select-component
-            v-model='form.birthDate.year'
+            v-model="$auth.user.date.split('-')[0]"
             label='Год'
-            :options='MOCK_YEARS'
+            :options='years'
             is-disabled
           />
         </div>
@@ -93,7 +96,7 @@
 
       <div :class='$style.profileRowBlock'>
         <interests-block
-          v-model='form.interests'
+          :value='$auth.user.interest'
           label='Интересы'
           :options='MOCK_INTERESTS'
           is-disabled
@@ -185,6 +188,7 @@
 
     <registration-modal
       v-if='registrationModalVisible'
+      is-edit
       @onClose='registrationModalVisible = false'
     />
 
@@ -203,9 +207,9 @@
 <script>
 import {
   MOCK_INTERESTS,
-  MOCK_YEARS,
   MOCK_DAYS,
   MOCK_MONTHS,
+  ASSETS_BASE_URL,
 } from '../data';
 
 import UserCard from '~/components/UserCard.vue';
@@ -248,29 +252,36 @@ export default {
       messengerVisible: false,
       deleteImageVisible: false,
       imageSizeError: false,
-      form: {
-        name: '',
-        surname: '',
-        password: '',
-        email: '',
-        gender: 'female',
-        goal: 'fun',
-        religion: 'islam',
-        city: 'almaty',
-        country: 'kz',
-        birthDate: {
-          day: '01',
-          month: '01',
-          year: '1996'
-        },
-        about: '',
-        interests: ['books'],
-      },
       MOCK_DAYS,
       MOCK_MONTHS,
-      MOCK_YEARS,
       MOCK_INTERESTS,
+      ASSETS_BASE_URL,
     }
+  },
+  computed: {
+    days() {
+      if (['01', '03', '05', '07', '08', '10', '12'].includes(this.month)) {
+        return this.MOCK_DAYS;
+      } else if (['04', '06', '09', '11'].includes(this.month)) {
+        return this.MOCK_DAYS.slice(0, -1);
+      } else if (this.month === '02' && this.year % 4 === 0 ) {
+        return this.MOCK_DAYS.slice(0, -2);
+      } else {
+        return this.MOCK_DAYS.slice(0, -3);
+      }
+    },
+    years() {
+      const currentYear = new Date();
+      const years = [];
+      for (let i = 1950; i <= currentYear.getFullYear(); i++) {
+        years.push({
+          label: i.toString(),
+          value: i.toString(),
+        });
+      }
+
+      return years;
+    },
   },
   methods: {
     handleAddImage() {
@@ -385,6 +396,8 @@ export default {
 }
 
 .infoImg {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 }
 
