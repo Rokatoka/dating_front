@@ -20,9 +20,11 @@
 
       <div :class='$style.profileRow'>
         <div :class='$style.info'>
-          <div :class='$style.imageWrapper'>
+          <div
+            v-if='$auth.user.photo'
+            :class='$style.imageWrapper'
+          >
             <img
-              v-if='$auth.user.photo.length'
               :class='$style.infoImg'
               :src='ASSETS_BASE_URL+$auth.user.photo[0].url'
               alt='profile'
